@@ -1,13 +1,19 @@
 {
   "lerna": "2.11.0",
-  "packages": ["packages/*"],
+  "packages": [
+    "netlify-cms@2/packages/*",
+    "packages/*"
+  ],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "loglevel": "success",
   "command": {
     "version": {
-      "allowBranch": ["master", "release/*"],
+      "allowBranch": [
+        "master",
+        "release/*"
+      ],
       "conventionalCommits": true,
       "preid": "beta",
       "gitRemote": "upstream",
