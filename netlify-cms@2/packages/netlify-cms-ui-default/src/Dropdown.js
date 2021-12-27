@@ -12,15 +12,62 @@ const StyledWrapper = styled(Wrapper)`
   font-size: 14px;
   user-select: none;
 `;
+const StyledBoxDropdownV2 = styled.div`
+  min-width: 192px;
+  border-radius: var(--tina-radius-big);
+  border: 1px solid rgb(239, 239, 239);
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transform: translate3d(0px, 0px, 0px) scale3d(0.5, 0.5, 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1150ms ease-out 0s;
+  transform-origin: 100% 0px;
+  box-shadow: var(--tina-shadow-big);
+  background-color: white;
+  overflow: hidden;
+  z-index: var(--tina-z-index-1);
+`;
+const StyledButtonV2 = styled.button`
+  @keyframes bounce {
+    0%, 20%, 60%, 100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    40% {
+      -webkit-transform: translateY(-6px);
+      transform: translateY(-6px);
+    }
+    80% {
+      -webkit-transform: translateY(-3px);
+      transform: translateY(-3px);
+    }
+  }
+  border: none;
+  padding: 10px;
+  margin: 0;
+  position: relative;
+  line-height: 2px;
+  border-radius: 100px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+  background: #b2adbe;
+  &:hover{
+    animation: bounce 400ms
+  }
+`;
 
-const StyledDropdownButton = styled(DropdownButton)`
+const StyledDropdownButtonV2 = styled(DropdownButton)`
   ${buttons.button};
   ${buttons.default};
   display: block;
   padding-left: 20px;
   padding-right: 40px;
   position: relative;
-
+  -webkit-transition: -webkit-transform 1s
   &:after {
     ${components.caretDown};
     content: '';
@@ -31,22 +78,34 @@ const StyledDropdownButton = styled(DropdownButton)`
     color: currentColor;
   }
 `;
-
-const DropdownList = styled.ul`
+const StyledDropdownButton = styled(DropdownButton)`
+  ${buttons.button};
+  ${buttons.default};
+  display: block;
+  padding-left: 20px;
+  padding-right: 40px;
+  position: relative;
+  &:after {
+    ${components.caretDown};
+    content: '';
+    display: block;
+    position: absolute;
+    top: 16px;
+    right: 10px;
+    color: currentColor;
+  }
+`;
+const DropdownList = styled.div`
   ${components.dropdownList};
-  margin: 0;
+  border: 1px solid rgb(239, 239, 239);
   position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
+  top: 35px;
+  min-width: 100px;
   z-index: ${zIndex.zIndex299};
-
-  ${props => css`
-    width: ${props.width};
-    top: ${props.top};
-    left: ${props.position === 'left' ? 0 : 'auto'};
-    right: ${props.position === 'right' ? 0 : 'auto'};
-  `};
+  right: 20px;
+  border-radius: 24px;
+  box-shadow: 0px 2px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.1);
+  box-sizing: border-box;
 `;
 
 function StyledMenuItem({ isActive, isCheckedItem = false, ...props }) {
@@ -173,4 +232,7 @@ export {
   DropdownCheckedItem,
   DropdownButton,
   StyledDropdownButton,
+  StyledDropdownButtonV2,
+  StyledButtonV2,
+  StyledBoxDropdownV2
 };

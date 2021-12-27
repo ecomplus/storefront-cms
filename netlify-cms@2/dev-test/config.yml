@@ -72,7 +72,7 @@ collections: # A list of collections the CMS should be able to edit
         description: 'General Site Settings'
         fields:
           - { label: 'Global title', name: 'site_title', widget: 'string' }
-          - label: 'Post Settings'
+          - label: 'Post Setting'
             name: posts
             widget: 'object'
             fields:
