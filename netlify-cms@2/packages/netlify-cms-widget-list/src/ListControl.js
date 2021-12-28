@@ -16,7 +16,7 @@ import {
   FieldLabel,
 } from 'netlify-cms-ui-default';
 import { stringTemplate, validations } from 'netlify-cms-lib-widgets';
-
+import { Icon } from 'netlify-cms-ui-default';
 import {
   TYPES_KEY,
   getTypedFieldForValue,
@@ -32,6 +32,11 @@ const SortableListItem = SortableElement(ListItem);
 
 const StyledListItemTopBar = styled(ListItemTopBar)`
   background-color: ${colors.textFieldBorder};
+`;
+
+const IconEdit = styled(Icon)`
+  margin-right: 12px;
+  margin-top: 2px;
 `;
 
 const NestedObjectLabel = styled.div`
@@ -51,7 +56,8 @@ const NestedObjectLabelV2 = styled.div`
   border-radius: 0 0 ${lengths.borderRadius} ${lengths.borderRadius};
   width: 100%;
   cursor: pointer;
-  justify-content: center
+  justify-content: center;
+  align-items: center;
 `;
 
 const styleStrings = {
@@ -548,6 +554,7 @@ export default class ListControl extends React.Component {
             dragHandleHOC={SortableHandle}
             data-testid={`styled-list-item-top-bar-${key}`}
             item={<NestedObjectLabelV2 collapsed={collapsed} error={hasError} onClick={(e) => this.handleItemCollapseToggle(index, item, e)}>
+              <IconEdit type="write" size="small" />
               {this.objectLabel(item)}
             </NestedObjectLabelV2>}
           />
