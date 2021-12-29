@@ -6,7 +6,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import Icon from './Icon';
 import { colors, buttons } from './styles';
-import Dropdown, { StyledDropdownButton, DropdownItem } from './Dropdown';
+import Dropdown, { StyledDropdownButton, DropdownItem, StyledDropdownButtonV2, StyledButtonV2, StyledBoxDropdownV2 } from './Dropdown';
+import { Button as DropdownButton } from 'react-aria-menubutton';
 
 const TopBarContainer = styled.div`
   align-items: center;
@@ -40,6 +41,44 @@ const ExpandButton = styled.button`
   }
 `;
 
+const BackButton = styled.button`
+  ${buttons.button};
+  display: flex;
+  align-items: center;
+  justify-content: left
+  background-color: transparent;
+  color: inherit;
+  width: 100%;
+`;
+
+const DivDropdownButtons = styled.div`
+	border-radius: 10px;
+  border: 1px solid rgb(239, 239, 239)
+  transition: all 150ms ease-out 0s;
+  background-color: white;
+  overflow: visible;
+`;
+
+const DropdownButtons = styled.button`
+  border: none;
+  border-bottom: 1px solid rgb(239, 239, 239);
+  background: none;
+  cursor: pointer;
+  padding: 12px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+
+  &:hover{
+    background-color: #f6f6f9
+  }
+`;
+const DivIntDropdownButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+
 const AddButton = styled.button`
   ${buttons.button}
   ${buttons.widget}
@@ -60,6 +99,8 @@ class ObjectWidgetTopBar extends React.Component {
     heading: PropTypes.node,
     label: PropTypes.string,
     t: PropTypes.func.isRequired,
+    collapsedItem: PropTypes.string,
+    itemsCollapsed: PropTypes.func,
   };
 
   renderAddUI() {
@@ -72,24 +113,35 @@ class ObjectWidgetTopBar extends React.Component {
       return this.renderAddButton();
     }
   }
-
   renderTypesDropdown(types) {
+
     return (
-      <Dropdown
-        renderButton={() => (
-          <StyledDropdownButton>
-            {this.props.t('editor.editorWidgets.list.addType', { item: this.props.label })}
-          </StyledDropdownButton>
-        )}
-      >
-        {types.map((type, idx) => (
-          <DropdownItem
-            key={idx}
-            label={type.get('label', type.get('name'))}
-            onClick={() => this.props.onAddType(type.get('name'))}
-          />
-        ))}
-      </Dropdown>
+      this.props.collapsedItem != ''
+        ?
+        <BackButton onClick={() => this.props.itemsCollapsed()}>
+          <Icon type="chevron" size="small" direction='left' />
+          <span style={{ marginLeft: '5px' }}>{this.props.collapsedItem}</span>
+        </BackButton>
+        :
+        <Dropdown
+          renderButton={() => (
+            <StyledButtonV2>
+              <DropdownButton>
+                <Icon type="add" size="xsmall" />
+              </DropdownButton>
+            </StyledButtonV2>
+          )}
+        >
+          <DivDropdownButtons>
+            <DivIntDropdownButtons>
+              {types.map((type, idx) => (
+                <DropdownButtons key={idx} onClick={() => this.props.onAddType(type.get('name'))}>
+                  {type.get('label', type.get('name'))}
+                </DropdownButtons>
+              ))}
+            </DivIntDropdownButtons>
+          </DivDropdownButtons>
+        </Dropdown>
     );
   }
 
@@ -108,10 +160,6 @@ class ObjectWidgetTopBar extends React.Component {
     return (
       <TopBarContainer>
         <ExpandButtonContainer hasHeading={!!heading}>
-          <ExpandButton onClick={onCollapseToggle} data-testid="expand-button">
-            <Icon type="chevron" direction={collapsed ? 'right' : 'down'} size="small" />
-          </ExpandButton>
-          {heading}
         </ExpandButtonContainer>
         {this.renderAddUI()}
       </TopBarContainer>

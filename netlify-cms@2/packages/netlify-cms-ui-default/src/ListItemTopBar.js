@@ -8,9 +8,10 @@ import { colors, lengths, buttons } from './styles';
 const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 26px;
+  height: 12px;
   border-radius: ${lengths.borderRadius} ${lengths.borderRadius} 0 0;
   position: relative;
+  background: #e1ddec;
 `;
 
 const TopBarButton = styled.button`
@@ -26,13 +27,20 @@ const TopBarButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+
+  &:hover{
+    background: #e1ddec;
+  }
 `;
 
 const TopBarButtonSpan = TopBarButton.withComponent('span');
-
 const DragIconContainer = styled(TopBarButtonSpan)`
-  width: 100%;
   cursor: move;
+  height: 100%;
+  &:hover{
+    background: #e1ddec;
+  }
 `;
 
 function DragHandle({ dragHandleHOC }) {
@@ -44,21 +52,21 @@ function DragHandle({ dragHandleHOC }) {
   return <Handle />;
 }
 
-function ListItemTopBar({ className, collapsed, onCollapseToggle, onRemove, dragHandleHOC }) {
+function ListItemTopBar({ className, collapsed, onCollapseToggle, onRemove, dragHandleHOC, item }) {
   return (
-    <TopBar className={className}>
-      {onCollapseToggle ? (
-        <TopBarButton onClick={onCollapseToggle}>
-          <Icon type="chevron" size="small" direction={collapsed ? 'right' : 'down'} />
-        </TopBarButton>
-      ) : null}
-      {dragHandleHOC ? <DragHandle dragHandleHOC={dragHandleHOC} /> : null}
-      {onRemove ? (
-        <TopBarButton onClick={onRemove}>
-          <Icon type="close" size="small" />
-        </TopBarButton>
-      ) : null}
-    </TopBar>
+    item.props.collapsed
+      ?
+      <TopBar className={className} style={{ height: '26px' }}>
+        {dragHandleHOC ? <DragHandle dragHandleHOC={dragHandleHOC} /> : null}
+        {item}
+        {onRemove ? (
+          <TopBarButton onClick={onRemove}>
+            <Icon type="close" size="small" />
+          </TopBarButton>
+        ) : null}
+      </TopBar>
+      :
+      <TopBar />
   );
 }
 
@@ -71,8 +79,9 @@ ListItemTopBar.propTypes = {
 
 const StyledListItemTopBar = styled(ListItemTopBar)`
   display: flex;
-  justify-content: space-between;
-  height: 26px;
+  min-height: 50px;
+  align-items: center;
+  justify-content: space-around
   border-radius: ${lengths.borderRadius} ${lengths.borderRadius} 0 0;
   position: relative;
 `;
