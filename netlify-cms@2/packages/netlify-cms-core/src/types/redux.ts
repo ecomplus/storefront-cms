@@ -576,6 +576,7 @@ export type CollectionFile = StaticallyTypedRecord<{
   public_folder?: string;
   preview_path?: string;
   preview_path_date_field?: string;
+  thumbnail?: string
 }>;
 
 export type CollectionFiles = List<CollectionFile>;
@@ -629,6 +630,7 @@ type CollectionObject = {
   nested?: Nested;
   meta?: Meta;
   i18n: i18n;
+  thumbnail?: string
 };
 
 export type Collection = StaticallyTypedRecord<CollectionObject>;

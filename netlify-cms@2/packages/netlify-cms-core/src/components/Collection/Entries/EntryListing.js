@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { Waypoint } from 'react-waypoint';
 import { Map } from 'immutable';
 
-import { selectFields, selectInferedField } from '../../../reducers/collections';
+import { selectFields, selectInferedField, selectEntryThumbnail } from '../../../reducers/collections';
 import EntryCard from './EntryCard';
 
 const CardsGrid = styled.ul`
@@ -43,10 +43,14 @@ export default class EntryListing extends React.Component {
     const descriptionField = selectInferedField(collection, 'description');
     const imageField = selectInferedField(collection, 'image');
     const fields = selectFields(collection);
+    const files = selectEntryThumbnail(collection)
+
     const inferedFields = [titleField, descriptionField, imageField];
     const remainingFields =
       fields && fields.filter(f => inferedFields.indexOf(f.get('name')) === -1);
-    return { titleField, descriptionField, imageField, remainingFields };
+    let thumbs = {}
+    const filesArray = files ? files.toArray().map((a) => Object.assign({ ...thumbs }, { [a.get('label')]: a.get('thumbnail') })) : null
+    return { titleField, descriptionField, imageField, remainingFields, filesArray };
   };
 
   renderCardsForSingleCollection = () => {
@@ -65,6 +69,7 @@ export default class EntryListing extends React.Component {
       const collectionLabel = !isSingleCollectionInList && collection.get('label');
       const inferedFields = this.inferFields(collection);
       const entryCardProps = { collection, entry, inferedFields, collectionLabel };
+
       return <EntryCard {...entryCardProps} key={idx} />;
     });
   };
