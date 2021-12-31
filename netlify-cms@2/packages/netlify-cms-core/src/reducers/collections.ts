@@ -204,6 +204,11 @@ export function selectTemplateName(collection: Collection, slug: string) {
   return selectors[collection.get('type')].templateName(collection, slug);
 }
 
+export function selectEntryThumbnail(collection: Collection) {
+  if (collection.has('files')) return collection.get('files')
+  return null;
+}
+
 export function getFieldsNames(fields: EntryField[], prefix = '') {
   let names = fields.map(f => `${prefix}${f.get('name')}`);
 

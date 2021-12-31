@@ -95,6 +95,7 @@ function EntryCard({
   collectionLabel,
   viewStyle = VIEW_STYLE_LIST,
   getAsset,
+  inferedFields,
 }) {
   if (viewStyle === VIEW_STYLE_LIST) {
     return (
@@ -115,7 +116,8 @@ function EntryCard({
             {collectionLabel ? <CollectionLabel>{collectionLabel}</CollectionLabel> : null}
             <CardHeading>{summary}</CardHeading>
           </CardBody>
-          {image ? <CardImage src={getAsset(image, imageField).toString()} /> : null}
+          {inferedFields?.filesArray?.some(file => file[summary]) ? <CardImage src={getAsset(inferedFields?.filesArray.filter(file => file[summary])[0][summary]).toString()} />
+            : image && <CardImage src={getAsset(image, imageField).toString()} />}
         </GridCardLink>
       </GridCard>
     );
