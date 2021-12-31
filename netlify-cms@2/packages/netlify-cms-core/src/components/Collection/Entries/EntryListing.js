@@ -69,7 +69,6 @@ export default class EntryListing extends React.Component {
       const collectionLabel = !isSingleCollectionInList && collection.get('label');
       const inferedFields = this.inferFields(collection);
       const entryCardProps = { collection, entry, inferedFields, collectionLabel };
-
       return <EntryCard {...entryCardProps} key={idx} />;
     });
   };
