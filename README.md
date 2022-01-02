@@ -10,3 +10,9 @@ yarn
 yarn bootstrap
 yarn start
 ```
+
+## Build
+
+```bash
+yarn build:app
+```
