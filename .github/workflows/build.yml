@@ -1,0 +1,43 @@
+name: Build and push
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build Storefront CMS package
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: netlify-cms@2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Lerna bootstrap
+        run: yarn bootstrap
+      
+      - name: Run build
+        run: yarn build:app
+
+      - name: Push output JS to dist branch
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: dist
+          FOLDER: netlify-cms@2/packages/netlify-cms-app/dist
+          CLEAN: true
