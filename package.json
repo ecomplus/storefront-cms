@@ -1,0 +1,26 @@
+{
+  "name": "@ecomplus/storefront-cms",
+  "version": "2.0.0-alpha",
+  "description": "Content and page builder for Storefront based on Netlify CMS",
+  "main": "netlify-cms@2/packages/netlify-cms/src/index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "release": "standard-version --prerelease alpha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecomplus/storefront-cms.git"
+  },
+  "author": "E-Com Club <ti@e-com.club>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ecomplus/storefront-cms/issues"
+  },
+  "homepage": "https://github.com/ecomplus/storefront-cms#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^16.0.1",
+    "@commitlint/config-conventional": "^16.0.0",
+    "husky": "^7.0.4",
+    "standard-version": "^9.3.2"
+  }
+}
