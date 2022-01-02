@@ -4,6 +4,7 @@
     "bootstrap": "lerna bootstrap",
     "start": "run-s clean bootstrap build:esm develop",
     "develop": "lerna run develop --parallel --ignore netlify-cms-proxy-server",
+    "build:app": "lerna run build --scope=netlify-cms-app",
     "build": "run-s clean build:esm build:lerna",
     "build:lerna": "lerna run build",
     "build:esm": "lerna run build:esm",
