@@ -9,6 +9,11 @@ console.log(`${pkg.version}${isProduction ? '' : '-dev'}`);
 
 const baseConfig = {
   ...baseWebpackConfig,
+  output: {
+    ...baseWebpackConfig.output,
+    library: 'StorefrontCMS',
+    filename: 'storefront-cms.min.js',
+  },
   plugins: [
     ...Object.entries(plugins)
       .filter(([key]) => key !== 'friendlyErrors')
