@@ -1,10 +1,10 @@
 {
   "name": "@ecomplus/storefront-cms",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-alpha.1",
   "description": "Content and page builder for Storefront based on Netlify CMS",
   "main": "netlify-cms@2/packages/netlify-cms/src/index.js",
   "scripts": {
-    "prepare": "husky install",
+    "postinstall": "husky install",
     "release": "standard-version --prerelease alpha"
   },
   "repository": {
