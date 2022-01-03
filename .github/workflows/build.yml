@@ -22,7 +22,7 @@ jobs:
           node-version: '14.x'
 
       - name: Bootstrap dependencies and build
-        run: cd netlify-cms@2 && yarn bootstrap && yarn build:app
+        run: cd netlify-cms@2 && yarn bootstrap && yarn && yarn build:app
 
       - name: Push output JS to dist branch
         uses: JamesIves/github-pages-deploy-action@releases/v3
