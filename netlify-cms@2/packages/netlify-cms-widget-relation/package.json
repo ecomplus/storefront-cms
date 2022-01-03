@@ -22,19 +22,19 @@
     "build:esm": "cross-env NODE_ENV=esm babel src --out-dir dist/esm --ignore \"**/__tests__\" --root-mode upward"
   },
   "dependencies": {
-    "react-select": "^4.0.0",
+    "react-select": "^4.3.1",
     "react-sortable-hoc": "^2.0.0",
-    "react-window": "^1.8.5"
+    "react-window": "^1.8.6"
   },
   "peerDependencies": {
-    "@emotion/core": "^10.0.35",
-    "@emotion/styled": "^10.0.27",
-    "immutable": "^3.7.6",
-    "lodash": "^4.17.11",
+    "@emotion/core": "^10.3.1",
+    "@emotion/styled": "^10.3.0",
+    "immutable": "^3.8.2",
+    "lodash": "^4.17.21",
     "netlify-cms-lib-widgets": "^1.6.1",
     "netlify-cms-ui-default": "^2.12.1",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.0",
     "react": "^16.8.4 || ^17.0.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.4.0"
   }
 }
