@@ -9,6 +9,10 @@ jobs:
   build:
     name: Build Storefront CMS package
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: netlify-cms@2
 
     steps:
       - name: Checkout
@@ -21,8 +25,14 @@ jobs:
         with:
           node-version: '14.x'
 
-      - name: Bootstrap dependencies and build
-        run: cd netlify-cms@2 && yarn bootstrap && yarn && yarn build:app
+      - name: Install dependencies
+        run: |
+          yarn
+          yarn bootstrap
+          yarn
+
+      - name: Run build
+        run: yarn build:app
 
       - name: Push output JS to dist branch
         uses: JamesIves/github-pages-deploy-action@releases/v3
