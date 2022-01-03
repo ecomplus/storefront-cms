@@ -23,14 +23,14 @@
     "build:esm": "cross-env NODE_ENV=esm babel src --out-dir dist/esm --ignore \"**/__tests__\" --root-mode upward"
   },
   "peerDependencies": {
-    "immutable": "^3.7.6",
+    "immutable": "^3.8.2",
     "netlify-cms-lib-widgets": "^1.6.1",
     "netlify-cms-ui-default": "^2.12.1",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.0",
     "react": "^16.8.4 || ^17.0.0",
-    "react-immutable-proptypes": "^2.1.0"
+    "react-immutable-proptypes": "^2.2.0"
   },
   "dependencies": {
-    "react-select": "^4.0.0"
+    "react-select": "^4.3.1"
   }
 }
