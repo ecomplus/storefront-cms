@@ -21,18 +21,18 @@
     "build:esm": "cross-env NODE_ENV=esm babel src --out-dir dist/esm --ignore **/__tests__ --root-mode upward --extensions \".js,.jsx,.ts,.tsx\""
   },
   "dependencies": {
-    "js-base64": "^3.0.0",
+    "js-base64": "^3.7.2",
     "semaphore": "^1.1.0"
   },
   "peerDependencies": {
-    "@emotion/core": "^10.0.9",
-    "@emotion/styled": "^10.0.9",
-    "immutable": "^3.7.6",
-    "lodash": "^4.17.11",
+    "@emotion/core": "^10.3.1",
+    "@emotion/styled": "^10.3.0",
+    "immutable": "^3.8.2",
+    "lodash": "^4.17.21",
     "netlify-cms-lib-auth": "^2.3.0",
     "netlify-cms-lib-util": "^2.12.3",
     "netlify-cms-ui-default": "^2.12.1",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.8.0",
     "react": "^16.8.4 || ^17.0.0"
   }
 }
