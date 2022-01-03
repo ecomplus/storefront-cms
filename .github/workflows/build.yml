@@ -27,12 +27,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn
-          yarn bootstrap
-          yarn
+          npm i
+          npx lerna bootstrap
 
       - name: Run build
-        run: yarn build:app
+        run: npm run build:app
 
       - name: Push output JS to dist branch
         uses: JamesIves/github-pages-deploy-action@releases/v3
