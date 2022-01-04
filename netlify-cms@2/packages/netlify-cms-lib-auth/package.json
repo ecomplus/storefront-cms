@@ -21,8 +21,8 @@
     "build:esm": "cross-env NODE_ENV=esm babel src --out-dir dist/esm --ignore \"**/__tests__\" --root-mode upward"
   },
   "peerDependencies": {
-    "immutable": "^3.8.2",
-    "lodash": "^4.17.21",
-    "uuid": "^3.4.0"
+    "immutable": "^3.7.6",
+    "lodash": "^4.17.11",
+    "uuid": "^3.3.2"
   }
 }
