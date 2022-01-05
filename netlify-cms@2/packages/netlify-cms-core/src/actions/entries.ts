@@ -87,6 +87,7 @@ export const ADD_DRAFT_ENTRY_MEDIA_FILE = 'ADD_DRAFT_ENTRY_MEDIA_FILE';
 export const REMOVE_DRAFT_ENTRY_MEDIA_FILE = 'REMOVE_DRAFT_ENTRY_MEDIA_FILE';
 
 export const CHANGE_VIEW_STYLE = 'CHANGE_VIEW_STYLE';
+export const CHANGE_VIEW_GRID = 'CHANGE_VIEW_GRID';
 
 /*
  * Simple Action Creators (Internal)
@@ -298,6 +299,15 @@ export function changeViewStyle(viewStyle: string) {
     type: CHANGE_VIEW_STYLE,
     payload: {
       style: viewStyle,
+    },
+  };
+}
+
+export function onGridMode(onlyGrid: string) {
+  return {
+    type: CHANGE_VIEW_GRID,
+    payload: {
+      style: onlyGrid,
     },
   };
 }

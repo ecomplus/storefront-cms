@@ -512,6 +512,7 @@ export type Entries = StaticallyTypedRecord<{
   filter: Filter;
   group: Group;
   viewStyle: string;
+  onlyGrid: string;
 }>;
 
 export type EditorialWorkflow = StaticallyTypedRecord<{

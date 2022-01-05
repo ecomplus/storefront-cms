@@ -68,6 +68,7 @@ export class EntriesCollection extends React.Component {
     loadEntries: PropTypes.func.isRequired,
     traverseCollectionCursor: PropTypes.func.isRequired,
     entriesLoaded: PropTypes.bool,
+    onlyGrid: PropTypes.string,
   };
 
   componentDidMount() {
@@ -90,7 +91,7 @@ export class EntriesCollection extends React.Component {
   };
 
   render() {
-    const { collection, entries, groups, isFetching, viewStyle, cursor, page, t } = this.props;
+    const { collection, entries, groups, isFetching, viewStyle, onlyGrid, cursor, page, t, onChangeViewStyle, onGridMode } = this.props;
 
     const EntriesToRender = ({ entries }) => {
       return (
@@ -103,6 +104,9 @@ export class EntriesCollection extends React.Component {
           cursor={cursor}
           handleCursorActions={partial(this.handleCursorActions, cursor)}
           page={page}
+          onChangeViewStyle={onChangeViewStyle}
+          onGridMode={onGridMode}
+          onlyGrid={onlyGrid}
         />
       );
     };
@@ -136,7 +140,7 @@ export function filterNestedEntries(path, collectionFolder, entries) {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { collection, viewStyle, filterTerm } = ownProps;
+  const { collection, viewStyle, filterTerm, onlyGrid} = ownProps;
   const page = state.entries.getIn(['pages', collection.get('name'), 'page']);
 
   let entries = selectEntries(state.entries, collection);
@@ -152,7 +156,7 @@ function mapStateToProps(state, ownProps) {
   const rawCursor = selectCollectionEntriesCursor(state.cursors, collection.get('name'));
   const cursor = Cursor.create(rawCursor).clearData();
 
-  return { collection, page, entries, groups, entriesLoaded, isFetching, viewStyle, cursor };
+  return { collection, page, entries, groups, entriesLoaded, isFetching, viewStyle, onlyGrid, cursor };
 }
 
 const mapDispatchToProps = {

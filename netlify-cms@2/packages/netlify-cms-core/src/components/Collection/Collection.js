@@ -12,7 +12,7 @@ import CollectionTop from './CollectionTop';
 import EntriesCollection from './Entries/EntriesCollection';
 import EntriesSearch from './Entries/EntriesSearch';
 import CollectionControls from './CollectionControls';
-import { sortByField, filterByField, changeViewStyle, groupByField } from '../../actions/entries';
+import { sortByField, filterByField, changeViewStyle, groupByField, onGridMode } from '../../actions/entries';
 import {
   selectSortableFields,
   selectViewFilters,
@@ -23,6 +23,7 @@ import {
   selectEntriesFilter,
   selectEntriesGroup,
   selectViewStyle,
+  selectOnlyGrid
 } from '../../reducers/entries';
 
 const CollectionContainer = styled.div`
@@ -56,18 +57,28 @@ export class Collection extends React.Component {
   };
 
   renderEntriesCollection = () => {
-    const { collection, filterTerm, viewStyle } = this.props;
+    const { collection, filterTerm, viewStyle, onChangeViewStyle, onGridMode, onlyGrid } = this.props;
     return (
-      <EntriesCollection collection={collection} viewStyle={viewStyle} filterTerm={filterTerm} />
+      <EntriesCollection
+        collection={collection}
+        viewStyle={viewStyle}
+        filterTerm={filterTerm}
+        onChangeViewStyle={onChangeViewStyle}
+        onGridMode={onGridMode}
+        onlyGrid={onlyGrid}
+      />
     );
   };
 
   renderEntriesSearch = () => {
-    const { searchTerm, collections, collection, isSingleSearchResult } = this.props;
+    const { searchTerm, collections, collection, isSingleSearchResult, onChangeViewStyle, onGridMode, onlyGrid } = this.props;
     return (
       <EntriesSearch
         collections={isSingleSearchResult ? collections.filter(c => c === collection) : collections}
         searchTerm={searchTerm}
+        onChangeViewStyle={onChangeViewStyle}
+        onGridMode={onGridMode}
+        onlyGrid={onlyGrid}
       />
     );
   };
@@ -93,7 +104,9 @@ export class Collection extends React.Component {
       filter,
       group,
       onChangeViewStyle,
+      onGridMode,
       viewStyle,
+      onlyGrid
     } = this.props;
 
     let newEntryUrl = collection.get('create') ? getNewEntryUrl(collectionName) : '';
@@ -139,6 +152,8 @@ export class Collection extends React.Component {
                 onGroupClick={onGroupClick}
                 filter={filter}
                 group={group}
+                onGridMode={onGridMode}
+                onlyGrid={onlyGrid}
               />
             </>
           )}
@@ -162,6 +177,9 @@ function mapStateToProps(state, ownProps) {
   const filter = selectEntriesFilter(state.entries, collection.get('name'));
   const group = selectEntriesGroup(state.entries, collection.get('name'));
   const viewStyle = selectViewStyle(state.entries);
+  const onlyGrid = selectOnlyGrid(state.entries);
+
+
 
   return {
     collection,
@@ -178,6 +196,7 @@ function mapStateToProps(state, ownProps) {
     filter,
     group,
     viewStyle,
+    onlyGrid
   };
 }
 
@@ -186,6 +205,7 @@ const mapDispatchToProps = {
   filterByField,
   changeViewStyle,
   groupByField,
+  onGridMode,
 };
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
@@ -197,6 +217,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     onFilterClick: filter => dispatchProps.filterByField(stateProps.collection, filter),
     onGroupClick: group => dispatchProps.groupByField(stateProps.collection, group),
     onChangeViewStyle: viewStyle => dispatchProps.changeViewStyle(viewStyle),
+    onGridMode: onlyGrid => dispatchProps.onGridMode(onlyGrid),
   };
 }
 
