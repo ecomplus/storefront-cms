@@ -60,7 +60,7 @@ class EntriesSearch extends React.Component {
   };
 
   render() {
-    const { collections, entries, isFetching } = this.props;
+    const { collections, entries, isFetching, onChangeViewStyle, onGridMode} = this.props;
     return (
       <Entries
         cursor={this.getCursor()}
@@ -68,6 +68,8 @@ class EntriesSearch extends React.Component {
         collections={collections}
         entries={entries}
         isFetching={isFetching}
+        onChangeViewStyle={onChangeViewStyle}
+        onGridMode={onGridMode}
       />
     );
   }

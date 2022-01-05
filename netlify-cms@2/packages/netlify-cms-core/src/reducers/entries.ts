@@ -26,6 +26,7 @@ import {
   GROUP_ENTRIES_SUCCESS,
   GROUP_ENTRIES_FAILURE,
   CHANGE_VIEW_STYLE,
+  CHANGE_VIEW_GRID
 } from '../actions/entries';
 import { VIEW_STYLE_LIST } from '../constants/collectionViews';
 import { joinUrlPath } from '../lib/urlHelper';
@@ -73,6 +74,7 @@ let slug: string;
 
 const storageSortKey = 'netlify-cms.entries.sort';
 const viewStyleKey = 'netlify-cms.entries.viewStyle';
+const onlyGridKey = ''
 type StorageSortObject = SortObject & { index: number };
 type StorageSort = { [collection: string]: { [key: string]: StorageSortObject } };
 
@@ -131,8 +133,22 @@ const loadViewStyle = once(() => {
   return VIEW_STYLE_LIST;
 });
 
+const loadOnlyGrid = once(() => {
+  const onlyGrid = localStorage.getItem(onlyGridKey);
+  if (onlyGrid) {
+    return onlyGrid;
+  }
+
+  localStorage.setItem(viewStyleKey, VIEW_STYLE_LIST);
+  return VIEW_STYLE_LIST;
+});
+
 function clearViewStyle() {
   localStorage.removeItem(viewStyleKey);
+}
+
+function clearOnlyGrid() {
+  localStorage.removeItem(onlyGridKey);
 }
 
 function persistViewStyle(viewStyle: string | undefined) {
@@ -143,8 +159,16 @@ function persistViewStyle(viewStyle: string | undefined) {
   }
 }
 
+function persistOnlyGrid(onlyGrid: string | undefined) {
+  if (onlyGrid) {
+    localStorage.setItem(onlyGridKey, onlyGrid);
+  } else {
+    clearOnlyGrid();
+  }
+}
+
 function entries(
-  state = Map({ entities: Map(), pages: Map(), sort: loadSort(), viewStyle: loadViewStyle() }),
+  state = Map({ entities: Map(), pages: Map(), sort: loadSort(), viewStyle: loadViewStyle(), onlyGrid: loadOnlyGrid() }),
   action: EntriesAction,
 ) {
   switch (action.type) {
@@ -343,6 +367,16 @@ function entries(
       return newState;
     }
 
+    case CHANGE_VIEW_GRID: {
+      const payload = action.payload as unknown as ChangeViewStylePayload;
+      const { style } = payload;
+      const newState = state.withMutations(map => {
+        map.setIn(['onlyGrid'], style);
+      });
+      persistOnlyGrid(newState.get('onlyGrid') as string);
+      return newState;
+    }
+
     default:
       return state;
   }
@@ -392,6 +426,10 @@ export function selectEntriesFilterFields(entries: Entries, collection: string) 
 
 export function selectViewStyle(entries: Entries) {
   return entries.get('viewStyle');
+}
+
+export function selectOnlyGrid(entries: Entries) {
+  return entries.get('onlyGrid');
 }
 
 export function selectEntry(state: Entries, collection: string, slug: string) {

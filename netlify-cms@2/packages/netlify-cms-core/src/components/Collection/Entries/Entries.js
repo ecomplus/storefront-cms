@@ -26,6 +26,9 @@ function Entries({
   handleCursorActions,
   t,
   page,
+  onChangeViewStyle,
+  onGridMode,
+  onlyGrid
 }) {
   const loadingMessages = [
     t('collection.entries.loadingEntries'),
@@ -48,6 +51,9 @@ function Entries({
           cursor={cursor}
           handleCursorActions={handleCursorActions}
           page={page}
+          onChangeViewStyle={onChangeViewStyle}
+          onGridMode={onGridMode}
+          onlyGrid={onlyGrid}
         />
         {isFetching && page !== undefined && entries.size > 0 ? (
           <PaginationMessage>{t('collection.entries.loadingEntries')}</PaginationMessage>
@@ -68,6 +74,7 @@ Entries.propTypes = {
   cursor: PropTypes.any.isRequired,
   handleCursorActions: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
+  onlyGrid: PropTypes.string,
 };
 
 export default translate()(Entries);

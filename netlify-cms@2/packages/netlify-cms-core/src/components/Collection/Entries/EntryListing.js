@@ -4,7 +4,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import styled from '@emotion/styled';
 import { Waypoint } from 'react-waypoint';
 import { Map } from 'immutable';
-
 import { selectFields, selectInferedField, selectEntryThumbnail } from '../../../reducers/collections';
 import EntryCard from './EntryCard';
 
@@ -22,6 +21,7 @@ export default class EntryListing extends React.Component {
     collections: ImmutablePropTypes.iterable.isRequired,
     entries: ImmutablePropTypes.list,
     viewStyle: PropTypes.string,
+    onlyGrid: PropTypes.string,
     cursor: PropTypes.any.isRequired,
     handleCursorActions: PropTypes.func.isRequired,
     page: PropTypes.number,
@@ -54,9 +54,13 @@ export default class EntryListing extends React.Component {
   };
 
   renderCardsForSingleCollection = () => {
-    const { collections, entries, viewStyle } = this.props;
+    const { collections, entries, viewStyle, onChangeViewStyle, onGridMode, onlyGrid } = this.props;
     const inferedFields = this.inferFields(collections);
-    const entryCardProps = { collection: collections, inferedFields, viewStyle };
+    const entryCardProps = { collection: collections, inferedFields, viewStyle, onlyGrid };
+    if (entryCardProps.inferedFields?.filesArray?.some((a) => Object.values(a)[0] !== undefined )){
+      onGridMode(false)
+      onChangeViewStyle('VIEW_STYLE_GRID')
+    } else onGridMode(true)
     return entries.map((entry, idx) => <EntryCard {...entryCardProps} entry={entry} key={idx} />);
   };
 
@@ -74,7 +78,7 @@ export default class EntryListing extends React.Component {
   };
 
   render() {
-    const { collections, page } = this.props;
+    const { collections, page, onChangeViewStyle } = this.props;
 
     return (
       <div>

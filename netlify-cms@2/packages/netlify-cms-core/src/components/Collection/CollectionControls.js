@@ -33,10 +33,14 @@ function CollectionControls({
   t,
   filter,
   group,
+  onGridMode,
+  onlyGrid
 }) {
+
   return (
     <CollectionControlsContainer>
-      <ViewStyleControl viewStyle={viewStyle} onChangeViewStyle={onChangeViewStyle} />
+      {onlyGrid && <ViewStyleControl viewStyle={viewStyle} onChangeViewStyle={onChangeViewStyle} onGridMode={onGridMode} />}
+
       {viewGroups.length > 0 && (
         <GroupControl viewGroups={viewGroups} onGroupClick={onGroupClick} t={t} group={group} />
       )}
