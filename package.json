@@ -1,6 +1,6 @@
 {
   "name": "@ecomplus/storefront-cms",
-  "version": "2.0.0-alpha.7",
+  "version": "2.0.0-alpha.8",
   "description": "Content and page builder for Storefront based on Netlify CMS",
   "main": "netlify-cms@2/packages/netlify-cms/src/index.js",
   "files": [
@@ -8,9 +8,9 @@
   ],
   "scripts": {
     "postinstall": "husky install",
-    "build": "rm dist/* && cd netlify-cms* && yarn build:app && npx ncp packages/netlify-cms-app/dist ../dist && cd ..",
+    "build": "cd netlify-cms* && yarn build:app && npx ncp packages/netlify-cms-app/dist ../dist && cd ..",
     "version": "standard-version --prerelease alpha",
-    "release": "npm run build && git add dist && git commit -m 'chore(release): dist' && npm run version"
+    "release": "npm run build && git add dist && git commit -m \"chore(release): dist\" && npm run version"
   },
   "repository": {
     "type": "git",
