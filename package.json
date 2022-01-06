@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "postinstall": "husky install",
-    "build": "cd netlify-cms* && yarn build:app && npx ncp packages/netlify-cms-app/dist ../dist && cd ..",
+    "build": "rm dist/* && cd netlify-cms* && yarn build:app && npx ncp packages/netlify-cms-app/dist ../dist && cd ..",
     "version": "standard-version --prerelease alpha",
     "release": "npm run build && git add dist && git commit -m 'chore(release): dist' && npm run version"
   },
