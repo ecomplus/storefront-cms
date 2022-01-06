@@ -71,11 +71,7 @@ const styleStrings = {
 
 const styles = {
   listControlItem: css`
-    margin-top: 18px;
-
-    &:first-of-type {
-      margin-top: 26px;
-    }
+    margin-top: 10px;
   `,
   listControlItemCollapsed: css`
     padding-bottom: 0;
@@ -236,8 +232,8 @@ export default class ListControl extends React.Component {
     this.props.setInactiveStyle();
   };
 
-  handleAdd = e => {
-    e.preventDefault();
+  handleAdd = (e = null) => {
+    if(e) e?.preventDefault()
     const { field } = this.props;
     const parsedValue =
       this.getValueType() === valueTypes.SINGLE

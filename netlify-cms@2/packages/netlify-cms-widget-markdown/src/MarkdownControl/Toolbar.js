@@ -261,7 +261,7 @@ export default class Toolbar extends React.Component {
             </ToolbarDropdownWrapper>
           )}
         </div>
-        {isShowModeToggle && (
+        {/* {isShowModeToggle && (
           <ToolbarToggle>
             <ToolbarToggleLabel isActive={!rawMode} offPosition>
               {t('editor.editorWidgets.markdown.richText')}
@@ -271,7 +271,7 @@ export default class Toolbar extends React.Component {
               {t('editor.editorWidgets.markdown.markdown')}
             </ToolbarToggleLabel>
           </ToolbarToggle>
-        )}
+        )} */}
       </ToolbarContainer>
     );
   }

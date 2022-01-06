@@ -8,7 +8,7 @@ import { colors, lengths, buttons } from './styles';
 const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 12px;
+  height: 0px;
   border-radius: ${lengths.borderRadius} ${lengths.borderRadius} 0 0;
   position: relative;
   background: #e1ddec;
@@ -54,9 +54,9 @@ function DragHandle({ dragHandleHOC }) {
 
 function ListItemTopBar({ className, collapsed, onCollapseToggle, onRemove, dragHandleHOC, item }) {
   return (
-    item.props.collapsed
+    item?.props?.collapsed
       ?
-      <TopBar className={className} style={{ height: '26px' }}>
+      <TopBar className={className}>
         {dragHandleHOC ? <DragHandle dragHandleHOC={dragHandleHOC} /> : null}
         {item}
         {onRemove ? (
