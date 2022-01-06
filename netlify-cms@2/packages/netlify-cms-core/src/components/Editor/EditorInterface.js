@@ -278,7 +278,7 @@ class EditorInterface extends Component {
         <div>
           <ReactSplitPaneGlobalStyles />
           <StyledSplitPane
-            maxSize={400}
+            maxSize={420}
             defaultSize={parseInt(localStorage.getItem(SPLIT_PANE_POSITION), 10) || '50%'}
             onChange={size => localStorage.setItem(SPLIT_PANE_POSITION, size)}
             onDragStarted={this.handleSplitPaneDragStart}
@@ -303,7 +303,7 @@ class EditorInterface extends Component {
       <ScrollSync enabled={this.state.scrollSyncEnabled}>
         <div>
           <StyledSplitPane
-            maxSize={400}
+            maxSize={420}
             defaultSize={parseInt(localStorage.getItem(SPLIT_PANE_POSITION), 10) || '50%'}
             onChange={size => localStorage.setItem(SPLIT_PANE_POSITION, size)}
             onDragStarted={this.handleSplitPaneDragStart}
