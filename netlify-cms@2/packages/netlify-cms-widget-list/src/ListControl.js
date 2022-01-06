@@ -28,7 +28,7 @@ const ObjectControl = NetlifyCmsWidgetObject.controlComponent;
 
 const ListItem = styled.div();
 
-const SortableListItem = SortableElement(ListItem);
+const SortableListItem = styled.div();
 
 const StyledListItemTopBar = styled(ListItemTopBar)`
   background-color: ${colors.textFieldBorder};
@@ -71,11 +71,11 @@ const styleStrings = {
 
 const styles = {
   listControlItem: css`
-    margin-top: 18px;
+    margin-top: 10px;
 
-    &:first-of-type {
-      margin-top: 26px;
-    }
+    // &:first-of-type {
+    //   margin-top: 26px;
+    // }
   `,
   listControlItemCollapsed: css`
     padding-bottom: 0;
@@ -237,7 +237,6 @@ export default class ListControl extends React.Component {
   };
 
   handleAdd = e => {
-    e.preventDefault();
     const { field } = this.props;
     const parsedValue =
       this.getValueType() === valueTypes.SINGLE

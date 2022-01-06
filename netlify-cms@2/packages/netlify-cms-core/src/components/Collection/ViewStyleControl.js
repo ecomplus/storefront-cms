@@ -8,7 +8,7 @@ const ViewControlsSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  max-width: 500px;
+  max-width: 450px;
 `;
 
 const ViewControlsButton = styled.button`

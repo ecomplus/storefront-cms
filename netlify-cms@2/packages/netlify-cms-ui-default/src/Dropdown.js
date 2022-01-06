@@ -31,20 +31,20 @@ const StyledBoxDropdownV2 = styled.div`
   z-index: var(--tina-z-index-1);
 `;
 const StyledButtonV2 = styled.button`
-  @keyframes bounce {
-    0%, 20%, 60%, 100% {
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-    }
-    40% {
-      -webkit-transform: translateY(-6px);
-      transform: translateY(-6px);
-    }
-    80% {
-      -webkit-transform: translateY(-3px);
-      transform: translateY(-3px);
-    }
-  }
+  // @keyframes bounce {
+  //   0%, 20%, 60%, 100% {
+  //     -webkit-transform: translateY(0);
+  //     transform: translateY(0);
+  //   }
+  //   40% {
+  //     -webkit-transform: translateY(-6px);
+  //     transform: translateY(-6px);
+  //   }
+  //   80% {
+  //     -webkit-transform: translateY(-3px);
+  //     transform: translateY(-3px);
+  //   }
+  // }
   border: none;
   padding: 10px;
   margin: 0;
@@ -55,9 +55,9 @@ const StyledButtonV2 = styled.button`
   cursor: pointer;
   transition: all 400ms ease-in-out;
   background: #b2adbe;
-  &:hover{
-    animation: bounce 400ms
-  }
+  // &:hover{
+  //   animation: bounce 400ms
+  // }
 `;
 
 const StyledDropdownButtonV2 = styled(DropdownButton)`
@@ -95,7 +95,22 @@ const StyledDropdownButton = styled(DropdownButton)`
     color: currentColor;
   }
 `;
-const DropdownList = styled.div`
+const DropdownList = styled.ul`
+  ${components.dropdownList};
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  z-index: ${zIndex.zIndex299};
+  ${props => css`
+    width: ${props.width};
+    top: ${props.top};
+    left: ${props.position === 'left' ? 0 : 'auto'};
+    right: ${props.position === 'right' ? 0 : 'auto'};
+  `};
+`;
+const DropdownListV2 = styled.div`
   ${components.dropdownList};
   border: 1px solid rgb(239, 239, 239);
   position: absolute;
@@ -234,5 +249,6 @@ export {
   StyledDropdownButton,
   StyledDropdownButtonV2,
   StyledButtonV2,
-  StyledBoxDropdownV2
+  StyledBoxDropdownV2,
+  DropdownListV2
 };

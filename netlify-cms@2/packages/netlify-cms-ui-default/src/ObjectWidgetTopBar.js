@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -17,10 +17,9 @@ const TopBarContainer = styled.div`
   margin: 0 -14px;
   padding: 13px;
 `;
-
 const ExpandButtonContainer = styled.div`
   ${props =>
-    props.hasHeading &&
+    props?.hasHeading &&
     css`
       display: flex;
       align-items: center;
@@ -29,7 +28,6 @@ const ExpandButtonContainer = styled.div`
       line-height: 1;
     `};
 `;
-
 const ExpandButton = styled.button`
   ${buttons.button};
   padding: 4px;
@@ -40,7 +38,6 @@ const ExpandButton = styled.button`
     margin-right: 4px;
   }
 `;
-
 const BackButton = styled.button`
   ${buttons.button};
   display: flex;
@@ -50,35 +47,68 @@ const BackButton = styled.button`
   color: inherit;
   width: 100%;
 `;
-
-const DivDropdownButtons = styled.div`
-	border-radius: 10px;
-  border: 1px solid rgb(239, 239, 239)
-  transition: all 150ms ease-out 0s;
-  background-color: white;
-  overflow: visible;
+const DivDropdownButtons = styled.ul`
+  flex-wrap: wrap;
+  -webkit-box-align: start;
+  display: flex;
+  align-items: flex-start;
+  align-content: start;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  align-items: normal;
 `;
-
+const Drop = styled.div`
+  z-index: 1;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  left: 10px;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid rgb(239, 239, 239);
+  overflow: visible;
+  box-shadow: 10px 5px 8px #dbdbdb;
+  transition: all 600ms ease-out 0s;
+`;
 const DropdownButtons = styled.button`
+  min-width: 100px;
+  max-width: 100%;
+  flex: 1;
+  position: relative;
+  padding: 10px;
+  align-items: center;
+  text-align: center;
   border: none;
   border-bottom: 1px solid rgb(239, 239, 239);
   background: none;
   cursor: pointer;
-  padding: 12px;
-  position: relative;
   text-align: center;
-  width: 100%;
 
   &:hover{
-    background-color: #f6f6f9
+    background-color: #f6f6f9;
   }
 `;
 const DivIntDropdownButtons = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
-
-
+const IconFile = styled.div`
+  background-image: url(${props => props?.src});
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 40px;
+  width: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  margin: 5px auto;
+`;
 const AddButton = styled.button`
   ${buttons.button}
   ${buttons.widget}
@@ -88,83 +118,74 @@ const AddButton = styled.button`
   }
 `;
 
-class ObjectWidgetTopBar extends React.Component {
-  static propTypes = {
-    allowAdd: PropTypes.bool,
-    types: ImmutablePropTypes.list,
-    onAdd: PropTypes.func,
-    onAddType: PropTypes.func,
-    onCollapseToggle: PropTypes.func,
-    collapsed: PropTypes.bool,
-    heading: PropTypes.node,
-    label: PropTypes.string,
-    t: PropTypes.func.isRequired,
-    collapsedItem: PropTypes.string,
-    itemsCollapsed: PropTypes.func,
-  };
+const ObjectWidgetTopBar = ({
+  onCollapseToggle,
+  collapsed = null,
+  heading = null,
+  allowAdd = null,
+  types = null,
+  onAdd = null,
+  onAddType = null,
+  label = null,
+  collapsedItem = null,
+  itemsCollapsed = null,
+  t = null,
+}) => {
 
-  renderAddUI() {
-    if (!this.props.allowAdd) {
-      return null;
-    }
-    if (this.props.types && this.props.types.size > 0) {
-      return this.renderTypesDropdown(this.props.types);
-    } else {
-      return this.renderAddButton();
-    }
+  const [dropBotton, setDropBotton] = useState(false)
+  const renderAddUI = () => {
+    if (!allowAdd) return null
+    return renderTypesDropdown(types);
   }
-  renderTypesDropdown(types) {
+  const renderTypesDropdown = (types) => {
 
     return (
-      this.props.collapsedItem != ''
+      collapsedItem != ''
         ?
-        <BackButton onClick={() => this.props.itemsCollapsed()}>
+        <BackButton onClick={() => itemsCollapsed()}>
           <Icon type="chevron" size="small" direction='left' />
-          <span style={{ marginLeft: '5px' }}>{this.props.collapsedItem}</span>
+          <span style={{ marginLeft: '5px' }}>{collapsedItem}</span>
         </BackButton>
         :
-        <Dropdown
-          renderButton={() => (
-            <StyledButtonV2>
-              <DropdownButton>
-                <Icon type="add" size="xsmall" />
-              </DropdownButton>
-            </StyledButtonV2>
-          )}
-        >
-          <DivDropdownButtons>
-            <DivIntDropdownButtons>
-              {types.map((type, idx) => (
-                <DropdownButtons key={idx} onClick={() => this.props.onAddType(type.get('name'))}>
-                  {type.get('label', type.get('name'))}
-                </DropdownButtons>
-              ))}
-            </DivIntDropdownButtons>
-          </DivDropdownButtons>
-        </Dropdown>
+        <>
+          <StyledButtonV2 onClick={() => types && types.size > 0 ? setDropBotton(!dropBotton) : onAdd()}>
+            <Icon type="add" size="xsmall" />
+          </StyledButtonV2>
+          {dropBotton &&
+            <Drop>
+              <DivDropdownButtons>
+                {types.map((type, idx) => (
+                  <DropdownButtons key={idx} onClick={() => { onAddType(type?.get('name')); setDropBotton(!dropBotton) }}>
+                    {type?.get('icon', type?.get('icon'))
+                      && <IconFile src={type?.get('icon', type?.get('icon')).toString()} />}
+                    <p style={{ margin: 0 }}>{type?.get('label', type?.get('name'))?.length > 10
+                      ? `${type?.get('label', type?.get('name')).toString().substr(0, 9)}..`
+                      : type?.get('label', type?.get('name'))}</p>
+                  </DropdownButtons>
+                ))}
+              </DivDropdownButtons>
+            </Drop>
+          }
+        </>
     );
   }
 
-  renderAddButton() {
+  const renderAddButton = () => {
     return (
-      <AddButton onClick={this.props.onAdd}>
-        {this.props.t('editor.editorWidgets.list.add', { item: this.props.label })}
+      <AddButton onClick={onAdd}>
+        {t('editor.editorWidgets.list.add', { item: label })}
         <Icon type="add" size="xsmall" />
       </AddButton>
     );
   }
 
-  render() {
-    const { onCollapseToggle, collapsed, heading = null } = this.props;
-
-    return (
-      <TopBarContainer>
-        <ExpandButtonContainer hasHeading={!!heading}>
-        </ExpandButtonContainer>
-        {this.renderAddUI()}
-      </TopBarContainer>
-    );
-  }
+  return (
+    <TopBarContainer>
+      <ExpandButtonContainer hasHeading={!!heading}>
+      </ExpandButtonContainer>
+      {renderAddUI()}
+    </TopBarContainer>
+  );
 }
 
 export default ObjectWidgetTopBar;

@@ -247,6 +247,7 @@ collections: # A list of collections the CMS should be able to edit
           - label: 'Type 1 Object'
             name: 'type_1_object'
             widget: 'object'
+            icon: 'download.png'
             fields:
               - { label: 'String', name: 'string', widget: 'string' }
               - { label: 'Boolean', name: 'boolean', widget: 'boolean' }
@@ -254,6 +255,7 @@ collections: # A list of collections the CMS should be able to edit
           - label: 'Type 2 Object'
             name: 'type_2_object'
             widget: 'object'
+            icon: 'moby-dick.jpg'
             fields:
               - { label: 'Number', name: 'number', widget: 'number' }
               - { label: 'Select', name: 'select', widget: 'select', options: ['a', 'b', 'c'] }
@@ -262,6 +264,32 @@ collections: # A list of collections the CMS should be able to edit
           - label: 'Type 3 Object'
             name: 'type_3_object'
             widget: 'object'
+            icon: 'nf-logo.png'
+            fields:
+              - { label: 'Date', name: 'date', widget: 'date' }
+              - { label: 'Image', name: 'image', widget: 'image' }
+              - { label: 'File', name: 'file', widget: 'file' }
+          - label: 'Type 4 Object'
+            name: 'type_4_object'
+            widget: 'object'
+            icon: 'download.png'
+            fields:
+              - { label: 'String', name: 'string', widget: 'string' }
+              - { label: 'Boolean', name: 'boolean', widget: 'boolean' }
+              - { label: 'Text', name: 'text', widget: 'text' }
+          - label: 'Type 5 Object'
+            name: 'type_5_object'
+            widget: 'object'
+            icon: 'moby-dick.jpg'
+            fields:
+              - { label: 'Number', name: 'number', widget: 'number' }
+              - { label: 'Select', name: 'select', widget: 'select', options: ['a', 'b', 'c'] }
+              - { label: 'Datetime', name: 'datetime', widget: 'datetime' }
+              - { label: 'Markdown', name: 'markdown', widget: 'markdown' }
+          - label: 'Type 6 Object'
+            name: 'type_6_object'
+            widget: 'object'
+            icon: 'nf-logo.png'
             fields:
               - { label: 'Date', name: 'date', widget: 'date' }
               - { label: 'Image', name: 'image', widget: 'image' }

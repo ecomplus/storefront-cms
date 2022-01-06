@@ -73,7 +73,7 @@ const ControlContainer = styled.div`
   margin-top: 16px;
 
   &:first-of-type {
-    margin-top: 36px;
+    // margin-top: 36px;
   }
 `;
 
