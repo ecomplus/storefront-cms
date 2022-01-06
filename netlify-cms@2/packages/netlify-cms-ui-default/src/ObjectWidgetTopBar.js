@@ -181,7 +181,7 @@ const ObjectWidgetTopBar = ({
 
   return (
     <TopBarContainer>
-      <ExpandButtonContainer hasHeading={!!heading}>
+      <ExpandButtonContainer hasHeading={heading}>
       </ExpandButtonContainer>
       {renderAddUI()}
     </TopBarContainer>
