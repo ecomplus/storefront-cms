@@ -165,6 +165,7 @@ const pt = {
         addComponent: 'Adicionar Componente',
         richText: 'Rich Text',
         markdown: 'Markdown',
+        image: 'Imagem'
       },
       image: {
         choose: 'Escolha uma imagem',

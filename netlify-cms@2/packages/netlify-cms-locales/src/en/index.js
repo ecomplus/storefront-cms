@@ -166,6 +166,7 @@ const en = {
         addComponent: 'Add Component',
         richText: 'Rich Text',
         markdown: 'Markdown',
+        image: 'Image',
       },
       image: {
         choose: 'Choose an image',

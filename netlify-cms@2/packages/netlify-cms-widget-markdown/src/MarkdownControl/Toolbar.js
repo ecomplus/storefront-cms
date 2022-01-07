@@ -218,6 +218,15 @@ export default class Toolbar extends React.Component {
               disabled={disabled}
             />
           )}
+          {showEditorComponents && (
+            <ToolbarButton
+              label={t('editor.editorWidgets.markdown.image')}
+              icon="image"
+              type="image"
+              onClick={() => onSubmit(pluginsList.find(plugin => plugin.id === 'image'))}
+              disabled={disabled}
+            />
+          )}
           {isVisible('bulleted-list') && (
             <ToolbarButton
               type="bulleted-list"
@@ -237,28 +246,6 @@ export default class Toolbar extends React.Component {
               isActive={hasListItems('numbered-list')}
               disabled={disabled}
             />
-          )}
-          {showEditorComponents && (
-            <ToolbarDropdownWrapper>
-              <Dropdown
-                dropdownTopOverlap="36px"
-                dropdownWidth="max-content"
-                renderButton={() => (
-                  <DropdownButton>
-                    <ToolbarButton
-                      label={t('editor.editorWidgets.markdown.addComponent')}
-                      icon="add-with"
-                      onClick={this.handleComponentsMenuToggle}
-                      disabled={disabled}
-                    />
-                  </DropdownButton>
-                )}
-              >
-                {pluginsList.map((plugin, idx) => (
-                  <DropdownItem key={idx} label={plugin.label} onClick={() => onSubmit(plugin)} />
-                ))}
-              </Dropdown>
-            </ToolbarDropdownWrapper>
           )}
         </div>
         {/* {isShowModeToggle && (
