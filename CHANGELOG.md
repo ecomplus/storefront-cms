@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.9](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2022-01-07)
+
+
+### Bug Fixes
+
+* **style:** icon_img_in_markdown ([bdd6e0a](https://github.com/ecomplus/storefront-cms/commit/bdd6e0a55fc2a3bc42138284da2ebfe13a58037c))
+
 ## [2.0.0-alpha.8](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2022-01-06)
 
 
