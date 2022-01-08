@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -87,8 +87,16 @@ const DropdownButtons = styled.button`
   cursor: pointer;
   text-align: center;
 
+  overflow: hidden;
+  -moz-transition: all 0.3s;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+
   &:hover{
     background-color: #f6f6f9;
+    -moz-transform: scale(1.1);
+	  -webkit-transform: scale(1.1);
+	  transform: scale(1.1);
   }
 `;
 const DivIntDropdownButtons = styled.div`
@@ -109,6 +117,10 @@ const IconFile = styled.div`
   min-height: 40px;
   margin: 5px auto;
 `;
+const LabelP = styled.p`
+  margin: 0;
+  font-size: 13px;
+`
 const AddButton = styled.button`
   ${buttons.button}
   ${buttons.widget}
@@ -133,6 +145,31 @@ const ObjectWidgetTopBar = ({
 }) => {
 
   const [dropBotton, setDropBotton] = useState(false)
+  const [typesLabel, setTypesLabel] = useState([])
+
+  useEffect(() => {
+    let listMajor = []
+    let listMinor = []
+    if (types) {
+      types.map((type, idx) => {
+        const label = `${type?.get('label', type?.get('name')).toString()}`
+        listMinor.push(`${label.substr(0, 13)}..`)
+        listMajor.push(label)
+      })
+      setTypesLabel({ listMinor, listMajor, list: listMinor })
+    }
+  }, [])
+
+  const zoomInLabel = (i) => {
+    let listZoom = [...typesLabel.listMinor]
+    listZoom[i] = typesLabel.listMajor[i]
+    setTypesLabel({ ...typesLabel, list: listZoom })
+  }
+
+  const zoomOutLabel = (i) => {
+    setTypesLabel({ ...typesLabel, list: typesLabel.listMinor })
+  }
+
   const renderAddUI = () => {
     if (!allowAdd) return null
     return renderTypesDropdown(types);
@@ -155,12 +192,12 @@ const ObjectWidgetTopBar = ({
             <Drop>
               <DivDropdownButtons>
                 {types.map((type, idx) => (
-                  <DropdownButtons key={idx} onClick={() => { onAddType(type?.get('name')); setDropBotton(!dropBotton) }}>
+                  <DropdownButtons key={idx} onClick={() => { onAddType(type?.get('name')); setDropBotton(!dropBotton) }}
+                    onMouseEnter={() => zoomInLabel(idx)}
+                    onMouseLeave={() => zoomOutLabel(idx)}>
                     {type?.get('icon', type?.get('icon'))
                       && <IconFile src={type?.get('icon', type?.get('icon')).toString()} />}
-                    <p style={{ margin: 0 }}>{type?.get('label', type?.get('name'))?.length > 10
-                      ? `${type?.get('label', type?.get('name')).toString().substr(0, 9)}..`
-                      : type?.get('label', type?.get('name'))}</p>
+                    <LabelP>{typesLabel.list[idx]}</LabelP>
                   </DropdownButtons>
                 ))}
               </DivDropdownButtons>
