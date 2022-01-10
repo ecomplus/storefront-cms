@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.0](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-alpha.9...v2.0.0-beta.0) (2022-01-10)
+
+
+### Bug Fixes
+
+* **style:** style dropdown typed list on hover ([#19](https://github.com/ecomplus/storefront-cms/issues/19)) ([d1ea21d](https://github.com/ecomplus/storefront-cms/commit/d1ea21d03099d382a7dc654ca2f55f31e654817d))
+
 ## [2.0.0-alpha.9](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2022-01-07)
 
 
