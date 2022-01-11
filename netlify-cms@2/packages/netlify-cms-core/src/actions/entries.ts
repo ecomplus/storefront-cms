@@ -69,6 +69,7 @@ export const DRAFT_CREATE_FROM_ENTRY = 'DRAFT_CREATE_FROM_ENTRY';
 export const DRAFT_CREATE_EMPTY = 'DRAFT_CREATE_EMPTY';
 export const DRAFT_DISCARD = 'DRAFT_DISCARD';
 export const DRAFT_CHANGE_FIELD = 'DRAFT_CHANGE_FIELD';
+export const DRAFT_FOCUS_FIELD = 'DRAFT_FOCUS_FIELD';
 export const DRAFT_VALIDATION_ERRORS = 'DRAFT_VALIDATION_ERRORS';
 export const DRAFT_CLEAR_ERRORS = 'DRAFT_CLEAR_ERRORS';
 export const DRAFT_LOCAL_BACKUP_RETRIEVED = 'DRAFT_LOCAL_BACKUP_RETRIEVED';
@@ -430,6 +431,19 @@ export function changeDraftField({
   return {
     type: DRAFT_CHANGE_FIELD,
     payload: { field, value, metadata, entries, i18n },
+  };
+}
+
+export function focusDraftField({
+  field,
+  value,
+}: {
+  field: EntryField;
+  value: string;
+}) {
+  return {
+    type: DRAFT_FOCUS_FIELD,
+    payload: { field, value },
   };
 }
 

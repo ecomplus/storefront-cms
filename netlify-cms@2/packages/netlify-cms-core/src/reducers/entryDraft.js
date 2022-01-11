@@ -8,6 +8,7 @@ import {
   DRAFT_CREATE_EMPTY,
   DRAFT_DISCARD,
   DRAFT_CHANGE_FIELD,
+  DRAFT_FOCUS_FIELD,
   DRAFT_VALIDATION_ERRORS,
   DRAFT_CLEAR_ERRORS,
   DRAFT_LOCAL_BACKUP_RETRIEVED,
@@ -117,9 +118,26 @@ function entryDraftReducer(state = Map(), action) {
         state.set(
           'hasChanged',
           !entries.some(e => newData.equals(e.get(...dataPath))) ||
-            !entries.some(e => newMeta.equals(e.get('meta'))),
+          !entries.some(e => newMeta.equals(e.get('meta'))),
         );
       });
+    }
+    case DRAFT_FOCUS_FIELD: {
+      return state.withMutations(state => {
+        const { field, value } = action.payload;
+        const name = field.get('name');
+        const meta = field.get('meta');
+
+        if (meta) {
+          state.setIn(['entry', 'meta', name], value);
+          const newData = state.getIn(['entry', ...dataPath]);
+          const newMeta = state.getIn(['entry', 'meta']);
+          state.set(
+            'hasFocused',
+            !entries.some(e => newMeta.equals(e.get('meta'))),
+          );
+        };
+      })
     }
     case DRAFT_VALIDATION_ERRORS:
       if (action.payload.errors.length === 0) {

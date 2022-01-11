@@ -209,6 +209,7 @@ class EditorInterface extends Component {
       fieldsMetaData,
       fieldsErrors,
       onChange,
+      onFocus,
       showDelete,
       onDelete,
       onDeleteUnpublishedChanges,
@@ -247,6 +248,7 @@ class EditorInterface extends Component {
       fieldsMetaData,
       fieldsErrors,
       onChange,
+      onFocus,
       onValidate,
     };
 
@@ -405,6 +407,7 @@ EditorInterface.propTypes = {
   fieldsMetaData: ImmutablePropTypes.map.isRequired,
   fieldsErrors: ImmutablePropTypes.map.isRequired,
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onValidate: PropTypes.func.isRequired,
   onPersist: PropTypes.func.isRequired,
   showDelete: PropTypes.bool.isRequired,

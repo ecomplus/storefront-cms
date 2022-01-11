@@ -119,6 +119,7 @@ class EditorControl extends React.Component {
     mediaPaths: ImmutablePropTypes.map.isRequired,
     boundGetAsset: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     openMediaLibrary: PropTypes.func.isRequired,
     addAsset: PropTypes.func.isRequired,
     removeInsertedMedia: PropTypes.func.isRequired,
@@ -177,6 +178,7 @@ class EditorControl extends React.Component {
       mediaPaths,
       boundGetAsset,
       onChange,
+      onFocus,
       openMediaLibrary,
       clearMediaControl,
       removeMediaControl,
@@ -220,6 +222,7 @@ class EditorControl extends React.Component {
       <ClassNames>
         {({ css, cx }) => (
           <ControlContainer
+            onFocus={() => onFocus(field)}
             className={className}
             css={css`
               ${isHidden && styleStrings.hidden};

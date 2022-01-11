@@ -15,6 +15,7 @@ import {
   createEmptyDraft,
   discardDraft,
   changeDraftField,
+  focusDraftField,
   changeDraftFieldValidation,
   persistEntry,
   deleteEntry,
@@ -39,6 +40,7 @@ import withWorkflow from './withWorkflow';
 export class Editor extends React.Component {
   static propTypes = {
     changeDraftField: PropTypes.func.isRequired,
+    focusDraftField: PropTypes.func.isRequired,
     changeDraftFieldValidation: PropTypes.func.isRequired,
     collection: ImmutablePropTypes.map.isRequired,
     createDraftDuplicateFromEntry: PropTypes.func.isRequired,
@@ -199,6 +201,11 @@ export class Editor extends React.Component {
   handleChangeDraftField = (field, value, metadata, i18n) => {
     const entries = [this.props.unPublishedEntry, this.props.publishedEntry].filter(Boolean);
     this.props.changeDraftField({ field, value, metadata, entries, i18n });
+  };
+
+  handleFocusDraftField = (field, value, metadata, i18n) => {
+    const entries = [this.props.unPublishedEntry, this.props.publishedEntry].filter(Boolean);
+    this.props.focusDraftField({ field, value, metadata, entries, i18n });
   };
 
   handleChangeStatus = newStatusName => {
@@ -383,6 +390,7 @@ export class Editor extends React.Component {
         fieldsMetaData={entryDraft.get('fieldsMetaData')}
         fieldsErrors={entryDraft.get('fieldsErrors')}
         onChange={this.handleChangeDraftField}
+        onFocus={this.handleFocusDraftField}
         onValidate={changeDraftFieldValidation}
         onPersist={this.handlePersistEntry}
         onDelete={this.handleDeleteEntry}
@@ -471,6 +479,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   changeDraftField,
+  focusDraftField,
   changeDraftFieldValidation,
   loadEntry,
   loadEntries,
