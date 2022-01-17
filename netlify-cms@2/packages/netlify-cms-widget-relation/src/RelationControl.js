@@ -110,6 +110,7 @@ export default class RelationControl extends React.Component {
 
   static propTypes = {
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     forID: PropTypes.string.isRequired,
     value: PropTypes.node,
     field: ImmutablePropTypes.map,
@@ -153,7 +154,7 @@ export default class RelationControl extends React.Component {
     // if the field has a previous value perform an initial search based on the value field
     // this is required since each search is limited by optionsLength so the selected value
     // might not show up on the search
-    const { forID, field, value, query, onChange } = this.props;
+    const { forID, field, value, query, onChange, onFocus } = this.props;
     const collection = field.get('collection');
     const file = field.get('file');
     const initialSearchValues = value && (this.isMultiple() ? getSelectedOptions(value) : [value]);
@@ -189,21 +190,21 @@ export default class RelationControl extends React.Component {
 
   onSortEnd =
     options =>
-    ({ oldIndex, newIndex }) => {
-      const { onChange, field } = this.props;
-      const value = options.map(optionToString);
-      const newValue = arrayMove(value, oldIndex, newIndex);
-      const metadata =
-        (!isEmpty(options) && {
-          [field.get('name')]: {
-            [field.get('collection')]: {
-              [last(newValue)]: last(options).data,
+      ({ oldIndex, newIndex }) => {
+        const { onChange, field } = this.props;
+        const value = options.map(optionToString);
+        const newValue = arrayMove(value, oldIndex, newIndex);
+        const metadata =
+          (!isEmpty(options) && {
+            [field.get('name')]: {
+              [field.get('collection')]: {
+                [last(newValue)]: last(options).data,
+              },
             },
-          },
-        }) ||
-        {};
-      onChange(fromJS(newValue), metadata);
-    };
+          }) ||
+          {};
+        onChange(fromJS(newValue), metadata);
+      };
 
   handleChange = selectedOption => {
     const { onChange, field } = this.props;
@@ -234,6 +235,36 @@ export default class RelationControl extends React.Component {
     }
   };
 
+  handleFocus = selectedOption => {
+    this.props.setActiveStyle()
+    const { onFocus, field } = this.props;
+
+    if (this.isMultiple()) {
+      const options = selectedOption;
+      this.setState({ initialOptions: options.filter(Boolean) });
+      const value = options.map(optionToString);
+      const metadata =
+        (!isEmpty(options) && {
+          [field.get('name')]: {
+            [field.get('collection')]: {
+              [last(value)]: last(options).data,
+            },
+          },
+        }) ||
+        {};
+      onFocus(fromJS(value), metadata);
+    } else {
+      this.setState({ initialOptions: [selectedOption].filter(Boolean) });
+      const value = optionToString(selectedOption);
+      const metadata = selectedOption && {
+        [field.get('name')]: {
+          [field.get('collection')]: { [value]: selectedOption.data },
+        },
+      };
+      onFocus(value, metadata);
+    }
+  };
+
   parseNestedFields = (hit, field) => {
     const templateVars = stringTemplate.extractTemplateVars(field);
     // return non template fields as is
@@ -255,7 +286,7 @@ export default class RelationControl extends React.Component {
     const displayField = field.get('display_fields') || List([field.get('value_field')]);
     const options = hits.reduce((acc, hit) => {
       const valuesPaths = stringTemplate.expandPath({ data: hit.data, path: valueField });
-      for (let i = 0; i < valuesPaths.length; i++) {
+      for (let i = 0;i < valuesPaths.length;i++) {
         const label = displayField
           .toJS()
           .map(key => {
@@ -319,6 +350,7 @@ export default class RelationControl extends React.Component {
         defaultOptions
         loadOptions={this.loadOptions}
         onChange={this.handleChange}
+        onFocus={this.handleFocus}
         className={classNameWrapper}
         onFocus={setActiveStyle}
         onBlur={setInactiveStyle}

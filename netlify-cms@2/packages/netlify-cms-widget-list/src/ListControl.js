@@ -121,6 +121,7 @@ export default class ListControl extends React.Component {
   static propTypes = {
     metadata: ImmutablePropTypes.map,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     onChangeObject: PropTypes.func.isRequired,
     onValidateObject: PropTypes.func.isRequired,
     validate: PropTypes.func.isRequired,
@@ -221,6 +222,17 @@ export default class ListControl extends React.Component {
 
   handleFocus = () => {
     this.props.setActiveStyle();
+    const { onFocus } = this.props;
+    const oldValue = this.state.value;
+    const newValue = e.target.value.trim();
+    const listValue = newValue ? newValue.split(',') : [];
+    if (newValue.match(/,$/) && oldValue.match(/, $/)) {
+      listValue.pop();
+    }
+
+    const parsedValue = this.valueToString(listValue);
+    this.setState({ value: parsedValue });
+    onFocus(List(listValue.map(val => val.trim())));
   };
 
   handleBlur = e => {
@@ -378,7 +390,7 @@ export default class ListControl extends React.Component {
   handleRemove = (index, event) => {
     event.preventDefault();
     const { itemsCollapsed } = this.state;
-    const { value, metadata, onChange, field, clearFieldErrors } = this.props;
+    const { value, metadata, onChange, field, clearFieldErrors, onFocus} = this.props;
     const collectionName = field.get('name');
     const isSingleField = this.getValueType() === valueTypes.SINGLE;
 

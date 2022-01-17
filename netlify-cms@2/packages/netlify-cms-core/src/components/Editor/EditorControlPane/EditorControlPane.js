@@ -227,7 +227,10 @@ export default class ControlPane extends React.Component {
                   console.log('newMeta', newMetadata);
                   onChange(field, newValue, newMetadata, i18n);
                 }}
-                onFocus={(item) => onFocus(item)}
+                onFocus={(field, newValue, newMetadata) => {
+                  console.log('newMeta', newMetadata);
+                  onFocus(field, newValue, newMetadata, i18n);
+                }}
                 onValidate={onValidate}
                 processControlRef={this.controlRef.bind(this)}
                 controlRef={this.controlRef}

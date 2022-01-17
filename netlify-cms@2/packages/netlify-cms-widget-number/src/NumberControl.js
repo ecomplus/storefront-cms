@@ -52,6 +52,7 @@ export default class NumberControl extends React.Component {
   static propTypes = {
     field: ImmutablePropTypes.map.isRequired,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     classNameWrapper: PropTypes.string.isRequired,
     setActiveStyle: PropTypes.func.isRequired,
     setInactiveStyle: PropTypes.func.isRequired,
@@ -80,6 +81,19 @@ export default class NumberControl extends React.Component {
     }
   };
 
+  handleFocus = e => {
+   this.props.setActiveStyle()
+   const valueType = this.props.field.get('value_type');
+    const { onFocus } = this.props;
+    const value = valueType === 'float' ? parseFloat(e.target.value) : parseInt(e.target.value, 10);
+
+    if (!isNaN(value)) {
+      onFocus(value);
+    } else {
+      onFocus('');
+    }
+}
+
   isValid = () => {
     const { field, value, t } = this.props;
     const hasPattern = !!field.get('pattern', false);
@@ -96,7 +110,7 @@ export default class NumberControl extends React.Component {
   };
 
   render() {
-    const { field, value, classNameWrapper, forID, setActiveStyle, setInactiveStyle } = this.props;
+    const { field, value, classNameWrapper, forID, setActiveStyle, setInactiveStyle, onFocus } = this.props;
     const min = field.get('min', '');
     const max = field.get('max', '');
     const step = field.get('step', field.get('value_type') === 'int' ? 1 : '');
@@ -105,7 +119,7 @@ export default class NumberControl extends React.Component {
         type="number"
         id={forID}
         className={classNameWrapper}
-        onFocus={setActiveStyle}
+        onFocus={this.handleFocus}
         onBlur={setInactiveStyle}
         value={value || (value === 0 ? value : '')}
         step={step}

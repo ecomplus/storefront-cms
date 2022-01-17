@@ -124,20 +124,25 @@ function entryDraftReducer(state = Map(), action) {
     }
     case DRAFT_FOCUS_FIELD: {
       return state.withMutations(state => {
-        const { field, value } = action.payload;
-        const name = field.get('name');
-        const meta = field.get('meta');
 
-        if (meta) {
-          state.setIn(['entry', 'meta', name], value);
-          const newData = state.getIn(['entry', ...dataPath]);
-          const newMeta = state.getIn(['entry', 'meta']);
-          state.set(
-            'hasFocused',
-            !entries.some(e => newMeta.equals(e.get('meta'))),
-          );
-        };
-      })
+        const { field, value, metadata, entries, i18n } = action.payload;
+        const name = field.get('name');
+        window.previewStyle = {
+          name: field.get('name'),
+          label: field.get('label'),
+        }
+        const dataPath = (i18n && getDataPath(i18n.currentLocale, i18n.defaultLocale)) || ['data'];
+        state.setIn(['entry', 'meta', name], value);
+
+        state.mergeDeepIn(['fieldsMetaData'], fromJS(metadata));
+        const newData = state.getIn(['entry', ...dataPath]);
+        const newMeta = state.getIn(['entry', 'meta']);
+        state.set(
+          'hasFocused',
+          !entries.some(e => newData.equals(e.get(...dataPath))) ||
+          !entries.some(e => newMeta.equals(e.get('meta'))),
+        );
+      });
     }
     case DRAFT_VALIDATION_ERRORS:
       if (action.payload.errors.length === 0) {

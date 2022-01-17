@@ -437,13 +437,23 @@ export function changeDraftField({
 export function focusDraftField({
   field,
   value,
+  metadata,
+  entries,
+  i18n,
 }: {
   field: EntryField;
   value: string;
+  metadata: Record<string, unknown>;
+  entries: EntryMap[];
+  i18n?: {
+    currentLocale: string;
+    defaultLocale: string;
+    locales: string[];
+  };
 }) {
   return {
     type: DRAFT_FOCUS_FIELD,
-    payload: { field, value },
+    payload: { field, value, metadata, entries, i18n },
   };
 }
 
@@ -624,7 +634,7 @@ export function loadEntries(collection: Collection, page = 0) {
         entries: EntryValue[];
       } = await (loadAllEntries
         ? // nested collections require all entries to construct the tree
-          provider.listAllEntries(collection).then((entries: EntryValue[]) => ({ entries }))
+        provider.listAllEntries(collection).then((entries: EntryValue[]) => ({ entries }))
         : provider.listEntries(collection, page));
       response = {
         ...response,
@@ -636,10 +646,10 @@ export function loadEntries(collection: Collection, page = 0) {
         // cursor, which behaves identically to no cursor at all.
         cursor: integration
           ? Cursor.create({
-              actions: ['next'],
-              meta: { usingOldPaginationAPI: true },
-              data: { nextPage: page + 1 },
-            })
+            actions: ['next'],
+            meta: { usingOldPaginationAPI: true },
+            data: { nextPage: page + 1 },
+          })
           : Cursor.create(response.cursor),
       };
 
@@ -790,13 +800,13 @@ export function createEmptyDraft(collection: Collection, search: string) {
 
 interface DraftEntryData {
   [name: string]:
-    | string
-    | null
-    | boolean
-    | List<unknown>
-    | DraftEntryData
-    | DraftEntryData[]
-    | (string | DraftEntryData | boolean | List<unknown>)[];
+  | string
+  | null
+  | boolean
+  | List<unknown>
+  | DraftEntryData
+  | DraftEntryData[]
+  | (string | DraftEntryData | boolean | List<unknown>)[];
 }
 
 export function createEmptyDraftData(

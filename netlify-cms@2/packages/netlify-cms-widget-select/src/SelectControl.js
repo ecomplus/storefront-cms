@@ -38,6 +38,7 @@ function getSelectedValue({ value, options, isMultiple }) {
 export default class SelectControl extends React.Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     value: PropTypes.node,
     forID: PropTypes.string.isRequired,
     classNameWrapper: PropTypes.string.isRequired,
@@ -93,6 +94,24 @@ export default class SelectControl extends React.Component {
     }
   };
 
+  handleFocus = selectedOption => {
+    this.props.setActiveStyle()
+    const { onFocus, field } = this.props;
+    const isMultiple = field.get('multiple', false);
+    const isEmpty = isMultiple ? !selectedOption?.length : !selectedOption;
+
+    if (field.get('required') && isEmpty && isMultiple) {
+      onFocus(List());
+    } else if (isEmpty) {
+      onFocus(null);
+    } else if (isMultiple) {
+      const options = selectedOption.map(optionToString);
+      onFocus(fromJS(options));
+    } else {
+      onFocus(optionToString(selectedOption));
+    }
+  };
+
   componentDidMount() {
     const { field, onChange, value } = this.props;
     if (field.get('required') && field.get('multiple')) {
@@ -105,7 +124,7 @@ export default class SelectControl extends React.Component {
   }
 
   render() {
-    const { field, value, forID, classNameWrapper, setActiveStyle, setInactiveStyle } = this.props;
+    const { field, value, forID, classNameWrapper, setActiveStyle, setInactiveStyle, onFocus } = this.props;
     const fieldOptions = field.get('options');
     const isMultiple = field.get('multiple', false);
     const isClearable = !field.get('required', true) || isMultiple;
@@ -123,7 +142,7 @@ export default class SelectControl extends React.Component {
         value={selectedValue}
         onChange={this.handleChange}
         className={classNameWrapper}
-        onFocus={setActiveStyle}
+        onFocus={this.handleFocus}
         onBlur={setInactiveStyle}
         options={options}
         styles={reactSelectStyles}

@@ -26,6 +26,7 @@ export default class ObjectControl extends React.Component {
 
   static propTypes = {
     onChangeObject: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     onValidateObject: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.node, PropTypes.object, PropTypes.bool]),
     field: PropTypes.object,
@@ -76,6 +77,7 @@ export default class ObjectControl extends React.Component {
     const {
       value,
       onChangeObject,
+      onFocus,
       onValidateObject,
       clearFieldErrors,
       metadata,
@@ -102,6 +104,7 @@ export default class ObjectControl extends React.Component {
         field={field}
         value={fieldValue}
         onChange={onChangeObject}
+        onFocus={onFocus}
         clearFieldErrors={clearFieldErrors}
         fieldsMetaData={metadata}
         fieldsErrors={fieldsErrors}

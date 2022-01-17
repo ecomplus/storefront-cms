@@ -14,11 +14,11 @@ function ListPreview({ values }) {
   );
 }
 
-function SelectPreview({ value }) {
+function SelectPreview(props) {
   return (
-    <WidgetPreviewContainer>
-      {value && (List.isList(value) ? <ListPreview values={value} /> : value)}
-      {!value && null}
+    <WidgetPreviewContainer style={{ borderStyle: props?.field?.get('name') === window?.previewStyle?.name && props?.field?.get('label') === window?.previewStyle?.label ? 'dotted' : 'none' }}>
+      {props.value && (List.isList(props.value) ? <ListPreview values={props.value} /> : props.value)}
+      {!props.value && null}
     </WidgetPreviewContainer>
   );
 }

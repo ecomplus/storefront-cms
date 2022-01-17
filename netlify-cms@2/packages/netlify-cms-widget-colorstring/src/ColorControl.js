@@ -79,6 +79,7 @@ const ClickOutsideDiv = styled.div`
 export default class ColorControl extends React.Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     forID: PropTypes.string,
     value: PropTypes.node,
     classNameWrapper: PropTypes.string.isRequired,
@@ -110,8 +111,15 @@ export default class ColorControl extends React.Component {
         : color.hex;
     this.props.onChange(formattedColor);
   };
+  handleFocus = color => {
+    const formattedColor =
+      color.rgb.a < 1
+        ? `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`
+        : color.hex;
+    this.props.onFocus(formattedColor);
+  };
   render() {
-    const { forID, value, field, onChange, classNameWrapper, setActiveStyle, setInactiveStyle } =
+    const { forID, value, field, onChange, onFocus, classNameWrapper, setActiveStyle, setInactiveStyle } =
       this.props;
 
     const allowInput = field.get('allowInput', false);
@@ -144,6 +152,7 @@ export default class ColorControl extends React.Component {
               color={value || ''}
               onChange={this.handleChange}
               disableAlpha={!field.get('enableAlpha', false)}
+              onFocus={this.handleFocus}
             />
           </ColorPickerContainer>
         )}
@@ -154,7 +163,7 @@ export default class ColorControl extends React.Component {
           className={classNameWrapper}
           value={value || ''}
           onChange={e => onChange(e.target.value)}
-          onFocus={setActiveStyle}
+          onFocus={e => { onFocus(e.target.value); this.props.setActiveStyle() }}
           onBlur={setInactiveStyle}
           style={{
             paddingLeft: '75px',

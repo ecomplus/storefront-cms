@@ -39,7 +39,7 @@ const SettingsSectionTitle = styled.h3`
   }
 `;
 
-function SettingsSelect({ value, options, onChange, forID, type, autoFocus }) {
+function SettingsSelect({ value, options, onChange, forID, type, autoFocus, onFocus }) {
   return (
     <Select
       inputId={`${forID}-select-${type}`}
@@ -50,6 +50,7 @@ function SettingsSelect({ value, options, onChange, forID, type, autoFocus }) {
       menuPlacement="auto"
       captureMenuScroll={false}
       autoFocus={autoFocus}
+      onFocus={opt => onFocus(opt.value)}
     />
   );
 }
