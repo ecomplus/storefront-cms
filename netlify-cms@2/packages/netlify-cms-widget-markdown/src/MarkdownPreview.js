@@ -21,7 +21,7 @@ class MarkdownPreview extends React.Component {
     const toRender = field?.get('sanitize_preview', false) ? DOMPurify.sanitize(html) : html;
 
     return <WidgetPreviewContainer
-      style={{ borderStyle: field?.get('name') === window?.previewStyle?.name && field?.get('label') === window?.previewStyle?.label ? 'dotted' : 'none' }}
+      style={{ borderStyle: field?.get('name') === window?.storefrontCmsFocusField?.name && field?.get('label') === window?.storefrontCmsFocusField?.label ? 'dotted' : 'none' }}
       dangerouslySetInnerHTML={{ __html: toRender }} />;
   }
 }

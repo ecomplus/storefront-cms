@@ -127,7 +127,7 @@ function entryDraftReducer(state = Map(), action) {
 
         const { field, value, metadata, entries, i18n } = action.payload;
         const name = field.get('name');
-        window.previewStyle = {
+        window.storefrontCmsFocusField = {
           name: field.get('name'),
           label: field.get('label'),
         }

@@ -19,7 +19,7 @@ function CodePreview(props) {
     <WidgetPreviewContainer
       style={{
         borderStyle:
-          props?.field.get('name') === window?.previewStyle?.name && props?.field.get('label') === window?.previewStyle?.label
+          props?.field.get('name') === window?.storefrontCmsFocusField?.name && props?.field.get('label') === window?.storefrontCmsFocusField?.label
             ? 'dotted' : 'none'
       }}>
       <pre>

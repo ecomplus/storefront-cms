@@ -4,7 +4,7 @@ import { WidgetPreviewContainer } from 'netlify-cms-ui-default';
 
 function StringPreview({ value, field }) {
   return <WidgetPreviewContainer
-    style={{ borderStyle: field?.get('name') === window?.previewStyle?.name && field?.get('label') === window?.previewStyle?.label ? 'dotted' : 'none' }}
+    style={{ borderStyle: field?.get('name') === window?.storefrontCmsFocusField?.name && field?.get('label') === window?.storefrontCmsFocusField?.label ? 'dotted' : 'none' }}
   >{value}</WidgetPreviewContainer>;
 }
 
