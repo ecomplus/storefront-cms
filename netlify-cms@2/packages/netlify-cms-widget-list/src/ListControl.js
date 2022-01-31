@@ -433,7 +433,7 @@ export default class ListControl extends React.Component {
   };
 
   objectLabel(item) {
-    const { field, entry } = this.props;
+    const { field, entry, t } = this.props;
     const valueType = this.getValueType();
     switch (valueType) {
       case valueTypes.MIXED: {
@@ -464,7 +464,7 @@ export default class ListControl extends React.Component {
         const value = item.get(labelField.get('name'));
         const summary = field.get('summary');
         const labelReturn = summary ? handleSummary(summary, entry, value, item) : value;
-        return (labelReturn || `No ${labelField.get('name')}`).toString();
+        return (labelReturn || t('editor.editorWidgets.list.edit')).toString();
       }
     }
     return '';
@@ -551,7 +551,7 @@ export default class ListControl extends React.Component {
             data-testid={`styled-list-item-top-bar-${key}`}
             item={<NestedObjectLabelV2 collapsed={collapsed} error={hasError} onClick={(e) => this.handleItemCollapseToggle(index, item, e)}>
               <IconEdit type="write" size="small" />
-              {this.objectLabel(item)}
+              {this.objectLabel(item).length > 30 ? `${this.objectLabel(item).substr(0, 30)}..` : this.objectLabel(item)}
             </NestedObjectLabelV2>}
           />
           <ClassNames>
