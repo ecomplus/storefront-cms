@@ -195,6 +195,9 @@ const nl = {
       },
       list: {
         add: 'Voeg %{item} toe',
+        addType: 'Voeg %{item} toe',
+        back: 'Opbrengst',
+        edit: 'Klik hier om te bewerken'
       },
     },
   },

@@ -203,6 +203,8 @@ const pt = {
       list: {
         add: 'Adicionar %{item}',
         addType: 'Adicionar %{item} item',
+        back: 'Voltar',
+        edit: 'Clique aqui para editar'
       },
     },
   },

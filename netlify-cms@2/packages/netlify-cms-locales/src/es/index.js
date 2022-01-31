@@ -159,6 +159,12 @@ const es = {
       datetime: {
         now: 'Ahora',
       },
+      list: {
+        add: 'Agregar %{item}',
+        addType: 'Agregar %{item}',
+        back: 'Volver',
+        edit: 'Haga clic aquí para editar'
+      }
     },
   },
   mediaLibrary: {

@@ -157,6 +157,12 @@ const nn_no = {
       datetime: {
         now: 'No',
       },
+      list: {
+        add: 'Å legge til %{item}',
+        addType: 'Å legge til %{item} punkt',
+        back: 'Komme tilbake',
+        edit: 'Klikk her for å redigere'
+      },
     },
   },
   mediaLibrary: {

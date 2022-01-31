@@ -196,6 +196,12 @@ const ro = {
       datetime: {
         now: 'Acum',
       },
+      list: {
+        add: 'A adauga %{item}',
+        addType: 'A adauga %{item} articol',
+        back: 'Întoarcere',
+        edit: 'Click aici pentru a edita'
+      },
     },
   },
   mediaLibrary: {
