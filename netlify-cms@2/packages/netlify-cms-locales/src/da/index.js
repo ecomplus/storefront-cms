@@ -185,6 +185,12 @@ const da = {
       datetime: {
         now: 'Nu',
       },
+      list: {
+        add: 'At tilføje %{item}',
+        addType: 'At tilføje %{item} vare',
+        back: 'Vend tilbage',
+        edit: 'Klik her for at redigere'
+      },
     },
   },
   mediaLibrary: {

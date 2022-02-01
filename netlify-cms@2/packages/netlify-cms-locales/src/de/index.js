@@ -207,6 +207,8 @@ const de = {
       list: {
         add: '%{item} hinzufügen',
         addType: '%{item} hinzufügen',
+        back: 'Zurückkehren',
+        edit: 'Klicken Sie hier, um zu bearbeiten'
       },
     },
   },

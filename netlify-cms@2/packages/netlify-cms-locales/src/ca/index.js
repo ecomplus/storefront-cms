@@ -193,6 +193,12 @@ const ca = {
       datetime: {
         now: 'Ara',
       },
+      list: {
+        add: 'Afegir %{item}',
+        addType: 'Afegir %{item} article',
+        back: 'Tornar',
+        edit: 'Feu clic aquí per editar'
+      },
     },
   },
   mediaLibrary: {

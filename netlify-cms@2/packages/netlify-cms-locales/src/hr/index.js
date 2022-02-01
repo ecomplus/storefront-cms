@@ -184,6 +184,12 @@ const hr = {
       datetime: {
         now: 'Sad',
       },
+      list: {
+        add: 'Dodati %{item}',
+        addType: 'Dodati %{item} artikal',
+        back: 'Povratak',
+        edit: 'Kliknite ovdje za uređivanje'
+      },
     },
   },
   mediaLibrary: {

@@ -141,7 +141,7 @@ const ObjectWidgetTopBar = ({
   label = null,
   collapsedItem = null,
   itemsCollapsed = null,
-  t = null,
+  t,
 }) => {
 
   const [dropBotton, setDropBotton] = useState(false)
@@ -181,7 +181,14 @@ const ObjectWidgetTopBar = ({
         ?
         <BackButton onClick={() => itemsCollapsed()}>
           <Icon type="chevron" size="small" direction='left' />
-          <span style={{ marginLeft: '5px' }}>{collapsedItem}</span>
+          <span style={{ marginLeft: '5px' }}>
+            {collapsedItem == t('editor.editorWidgets.list.edit') 
+              ? t('editor.editorWidgets.list.back')
+              : collapsedItem.toString().length > 30 
+                ? `${collapsedItem.substr(0, 30)}..`
+                : collapsedItem
+            }
+          </span>
         </BackButton>
         :
         <>

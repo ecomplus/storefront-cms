@@ -204,6 +204,8 @@ const en = {
       list: {
         add: 'Add %{item}',
         addType: 'Add %{item}',
+        back: 'Return',
+        edit: 'Click here to edit'
       },
     },
   },

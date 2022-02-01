@@ -135,6 +135,12 @@ const it = {
         headingFive: 'Heading 5',
         headingSix: 'Heading 6',
       },
+      list: {
+        add: 'Aggiungere %{item}',
+        addType: 'Aggiungere %{item} elemento',
+        back: 'Ritorno',
+        edit: 'Clicca qui per modificare'
+      },
     },
   },
   mediaLibrary: {

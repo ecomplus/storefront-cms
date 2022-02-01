@@ -195,6 +195,12 @@ const sv = {
       datetime: {
         now: 'Nu',
       },
+      list: {
+        add: 'Tillägga %{item}',
+        addType: 'Tillägga %{item} artikel',
+        back: 'Lämna tillbaka',
+        edit: 'Klicka här för att redigera'
+      },
     },
   },
   mediaLibrary: {
