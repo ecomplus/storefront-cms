@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.1](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2022-02-01)
+
+
+### Bug Fixes
+
+* **label_lists:** default_label_in_lists_when_fields_are_empty ([8db16ae](https://github.com/ecomplus/storefront-cms/commit/8db16aed8634118e52d6fdad7e20ca8fd782b5a5))
+* **label_lists:** default_label_in_lists_when_fields_are_empty ([8935047](https://github.com/ecomplus/storefront-cms/commit/8935047db58064065e403171d99ecd7ad0803148))
+
 ## [2.0.0-beta.0](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-alpha.9...v2.0.0-beta.0) (2022-01-10)
 
 
