@@ -99,14 +99,14 @@ export default class ControlPane extends React.Component {
     selectedLocale: this.props.locale,
   };
 
-  componentValidate = {};
+  // componentValidate = {};
 
   controlRef(field, wrappedControl) {
     if (!wrappedControl) return;
     const name = field.get('name');
 
-    this.componentValidate[name] =
-      wrappedControl.innerWrappedControl?.validate || wrappedControl.validate;
+    // this.componentValidate[name] =
+    //   wrappedControl.innerWrappedControl?.validate || wrappedControl.validate;
   }
 
   handleLocaleChange = val => {
@@ -152,7 +152,7 @@ export default class ControlPane extends React.Component {
   validate = async () => {
     this.props.fields.forEach(field => {
       if (field.get('widget') === 'hidden') return;
-      this.componentValidate[field.get('name')]();
+      // this.componentValidate[field.get('name')]();
     });
   };
 

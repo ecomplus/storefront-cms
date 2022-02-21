@@ -40,7 +40,6 @@ export default function remarkToRehypeShortcodes({ plugins, getAsset, resolveWid
      */
     const value = getPreview(plugin, shortcodeData);
     const valueHtml = typeof value === 'string' ? value : renderToString(value);
-
     /**
      * Return a new 'html' type node containing the shortcode preview markup.
      */

@@ -23,6 +23,14 @@ import {
   resolveFieldKeyType,
   getErrorMessageForTypedFieldAndValue,
 } from './typedListHelpers';
+import {
+  useEditor,
+  EditorContent,
+  BubbleMenu,
+  FloatingMenu,
+} from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { renderToString } from 'react-dom/server';
 
 const ObjectControl = NetlifyCmsWidgetObject.controlComponent;
 
@@ -465,6 +473,7 @@ export default function ListControl(props) {
       parentIds,
       forID,
       t,
+      value
     } = props;
     const collapsed = itemsCollapsed[index];
     const key = keys[index];
@@ -477,6 +486,7 @@ export default function ListControl(props) {
         return renderErroneousTypedItem(index, item);
       }
     }
+
     const indexItemsCollapsed = itemsCollapsed.some((i) => i == false) ? itemsCollapsed.indexOf(false) : index
 
     return (
@@ -496,8 +506,9 @@ export default function ListControl(props) {
               {objectLabel(item).length > 30 ? `${objectLabel(item).substr(0, 30)}..` : objectLabel(item)}
             </NestedObjectLabelV2>}
           />
+
           <ClassNames>
-            {({ css, cx }) => (
+            {({ css, cx }) => (<>
               <ObjectControl
                 classNameWrapper={cx(classNameWrapper, {
                   [css`
@@ -521,7 +532,7 @@ export default function ListControl(props) {
                 data-testid={`object-control-${key}`}
                 hasError={hasAError}
                 parentIds={[...parentIds, forID, key]}
-              />
+              /></>
             )}
           </ClassNames>
         </SortableListItem>
@@ -561,11 +572,23 @@ export default function ListControl(props) {
     const allItemsCollapsed = itemsCollapsed.every(val => val === true);
     const selfCollapsed = allItemsCollapsed && (listCollapsed || !minimizeCollapsedItems);
 
+
+
+
+  // const editor = useEditor({
+  //   extensions: [
+  //     StarterKit,
+  //   ],
+  //   content: `
+    
+  //   `,
+  // })
     return (
       <ClassNames>
         {({ cx, css }) => (
           itemsCollapsed.some((e) => e == false) ?
             <div>
+  
               <ObjectWidgetTopBar
                 allowAdd={field.get('allow_add', true)}
                 onAdd={handleAdd}
@@ -598,7 +621,7 @@ export default function ListControl(props) {
                 ${styleStrings.objectWidgetTopBarContainer}
               `,
               )}
-            >
+            > 
               <ObjectWidgetTopBar
                 allowAdd={field.get('allow_add', true)}
                 onAdd={handleAdd}
@@ -611,6 +634,51 @@ export default function ListControl(props) {
                 t={t}
                 collapsedItem={''}
               />
+                 {/* <>
+      {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+        <button
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={editor.isActive('bold') ? 'is-active' : ''}
+        >
+          Bold
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={editor.isActive('italic') ? 'is-active' : ''}
+        >
+          Italic
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          className={editor.isActive('strike') ? 'is-active' : ''}
+        >
+          Strike
+        </button>
+      </BubbleMenu>}
+
+      {editor && <FloatingMenu className="floating-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+        <button
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+        >
+          H1
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+        >
+          H2
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={editor.isActive('bulletList') ? 'is-active' : ''}
+        >
+          Bullet List
+        </button>
+      </FloatingMenu>}
+
+      <EditorContent editor={editor} />
+    </> */}
               {(!selfCollapsed || !minimizeCollapsedItems) && (
                 <SortableList
                   items={items}
@@ -640,6 +708,7 @@ export default function ListControl(props) {
       />
     );
   }
+
 
   return getValueType() !== null ? renderListControl() : renderInput()
 

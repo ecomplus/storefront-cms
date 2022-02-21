@@ -113,6 +113,7 @@ class EditorControl extends React.Component {
       PropTypes.string,
       PropTypes.bool,
     ]),
+    obj:  PropTypes.bool,
     field: ImmutablePropTypes.map.isRequired,
     fieldsMetaData: ImmutablePropTypes.map,
     fieldsErrors: ImmutablePropTypes.map,
@@ -203,6 +204,7 @@ class EditorControl extends React.Component {
       isHidden,
       isFieldDuplicate,
       isFieldHidden,
+      obj
     } = this.props;
 
     const widgetName = field.get('widget');
@@ -215,7 +217,6 @@ class EditorControl extends React.Component {
     const errors = fieldsErrors && fieldsErrors.get(this.uniqueFieldId);
     const childErrors = this.isAncestorOfFieldError();
     const hasErrors = !!errors || childErrors;
-
     return (
       <ClassNames>
         {({ css, cx }) => (
@@ -281,6 +282,7 @@ class EditorControl extends React.Component {
                 ${styleStrings.labelActive};
               `}
               controlComponent={widget.control}
+              obj={obj}
               entry={entry}
               collection={collection}
               config={config}

@@ -6,6 +6,14 @@ import { oneLine } from 'common-tags';
 
 import { getRemarkPlugins } from '../../../lib/registry';
 import ValidationErrorTypes from '../../../constants/validationErrorTypes';
+import { renderToString } from 'react-dom/server';
+import {
+  useEditor,
+  EditorContent,
+  BubbleMenu,
+  FloatingMenu,
+} from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 
 function truthy() {
   return { error: false };
@@ -21,73 +29,33 @@ function isEmpty(value) {
   );
 }
 
-export default class Widget extends Component {
-  static propTypes = {
-    controlComponent: PropTypes.func.isRequired,
-    field: ImmutablePropTypes.map.isRequired,
-    hasActiveStyle: PropTypes.bool,
-    setActiveStyle: PropTypes.func.isRequired,
-    setInactiveStyle: PropTypes.func.isRequired,
-    classNameWrapper: PropTypes.string.isRequired,
-    classNameWidget: PropTypes.string.isRequired,
-    classNameWidgetActive: PropTypes.string.isRequired,
-    classNameLabel: PropTypes.string.isRequired,
-    classNameLabelActive: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    mediaPaths: ImmutablePropTypes.map.isRequired,
-    metadata: ImmutablePropTypes.map,
-    fieldsErrors: ImmutablePropTypes.map,
-    onChange: PropTypes.func.isRequired,
-    onValidate: PropTypes.func,
-    onOpenMediaLibrary: PropTypes.func.isRequired,
-    onClearMediaControl: PropTypes.func.isRequired,
-    onRemoveMediaControl: PropTypes.func.isRequired,
-    onPersistMedia: PropTypes.func.isRequired,
-    onAddAsset: PropTypes.func.isRequired,
-    onRemoveInsertedMedia: PropTypes.func.isRequired,
-    getAsset: PropTypes.func.isRequired,
-    resolveWidget: PropTypes.func.isRequired,
-    widget: PropTypes.object.isRequired,
-    getEditorComponents: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool,
-    controlRef: PropTypes.func,
-    query: PropTypes.func.isRequired,
-    clearSearch: PropTypes.func.isRequired,
-    clearFieldErrors: PropTypes.func.isRequired,
-    queryHits: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-    editorControl: PropTypes.elementType.isRequired,
-    uniqueFieldId: PropTypes.string.isRequired,
-    loadEntry: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
-    onValidateObject: PropTypes.func,
-    isEditorComponent: PropTypes.bool,
-    isNewEditorComponent: PropTypes.bool,
-    entry: ImmutablePropTypes.map.isRequired,
-    isDisabled: PropTypes.bool,
-    isFieldDuplicate: PropTypes.func,
-    isFieldHidden: PropTypes.func,
-  };
+export default function Widget(props) {
+  let innerWrappedControl;
 
-  shouldComponentUpdate(nextProps) {
+  let wrappedControlValid;
+
+  /**
+   * Get the `shouldComponentUpdate` method from the wrapped control, and
+   * provide the control instance is the `this` binding.
+   */
+
+  let wrappedControlShouldComponentUpdate;
+
+  const shouldComponentUpdate = (nextProps) => {
     /**
      * Allow widgets to provide their own `shouldComponentUpdate` method.
      */
-    if (this.wrappedControlShouldComponentUpdate) {
-      return this.wrappedControlShouldComponentUpdate(nextProps);
+    if (wrappedControlShouldComponentUpdate) {
+      return wrappedControlShouldComponentUpdate(nextProps);
     }
     return (
-      this.props.value !== nextProps.value ||
-      this.props.classNameWrapper !== nextProps.classNameWrapper ||
-      this.props.hasActiveStyle !== nextProps.hasActiveStyle
+      props.value !== nextProps.value ||
+      props.classNameWrapper !== nextProps.classNameWrapper ||
+      props.hasActiveStyle !== nextProps.hasActiveStyle
     );
   }
 
-  processInnerControlRef = ref => {
+  const processInnerControlRef = ref => {
     if (!ref) return;
 
     /**
@@ -96,49 +64,49 @@ export default class Widget extends Component {
      * `getWrappedInstance` method. Note that connected widgets must pass
      * `withRef: true` to `connect` in the options object.
      */
-    this.innerWrappedControl = ref.getWrappedInstance ? ref.getWrappedInstance() : ref;
+    innerWrappedControl = ref.getWrappedInstance ? ref.getWrappedInstance() : ref;
 
-    this.wrappedControlValid = this.innerWrappedControl.isValid || truthy;
+    wrappedControlValid = innerWrappedControl.isValid || truthy;
 
     /**
      * Get the `shouldComponentUpdate` method from the wrapped control, and
      * provide the control instance is the `this` binding.
      */
-    const { shouldComponentUpdate: scu } = this.innerWrappedControl;
-    this.wrappedControlShouldComponentUpdate = scu && scu.bind(this.innerWrappedControl);
+    const { shouldComponentUpdate: scu } = innerWrappedControl;
+    wrappedControlShouldComponentUpdate = scu && scu.bind(innerWrappedControl);
   };
 
-  getValidateValue = () => {
-    let value = this.innerWrappedControl?.getValidateValue?.() || this.props.value;
+  const getValidateValue = () => {
+    let value = innerWrappedControl?.getValidateValue?.() || props.value;
     // Convert list input widget value to string for validation test
     List.isList(value) && (value = value.join(','));
     return value;
   };
 
-  validate = (skipWrapped = false) => {
-    const value = this.getValidateValue();
-    const field = this.props.field;
+  const validate = (skipWrapped = false) => {
+    const value = getValidateValue();
+    const field = props.field;
     const errors = [];
-    const validations = [this.validatePresence, this.validatePattern];
+    const validations = [validatePresence, validatePattern];
     if (field.get('meta')) {
-      validations.push(this.props.validateMetaField);
+      validations.push(props.validateMetaField);
     }
     validations.forEach(func => {
-      const response = func(field, value, this.props.t);
+      const response = func(field, value, props.t);
       if (response.error) errors.push(response.error);
     });
     if (skipWrapped) {
       if (skipWrapped.error) errors.push(skipWrapped.error);
     } else {
-      const wrappedError = this.validateWrappedControl(field);
+      const wrappedError = validateWrappedControl(field);
       if (wrappedError.error) errors.push(wrappedError.error);
     }
 
-    this.props.onValidate(errors);
+    props.onValidate(errors);
   };
 
-  validatePresence = (field, value) => {
-    const { t, parentIds } = this.props;
+  const validatePresence = (field, value) => {
+    const { t, parentIds } = props;
     const isRequired = field.get('required', true);
     if (isRequired && isEmpty(value)) {
       const error = {
@@ -154,8 +122,8 @@ export default class Widget extends Component {
     return { error: false };
   };
 
-  validatePattern = (field, value) => {
-    const { t, parentIds } = this.props;
+  const validatePattern = (field, value) => {
+    const { t, parentIds } = props;
     const pattern = field.get('pattern', false);
 
     if (isEmpty(value)) {
@@ -178,16 +146,16 @@ export default class Widget extends Component {
     return { error: false };
   };
 
-  validateWrappedControl = field => {
-    const { t, parentIds } = this.props;
-    if (typeof this.wrappedControlValid !== 'function') {
+  const validateWrappedControl = field => {
+    const { t, parentIds } = props;
+    if (typeof wrappedControlValid !== 'function') {
       throw new Error(oneLine`
-        this.wrappedControlValid is not a function. Are you sure widget
+        wrappedControlValid is not a function. Are you sure widget
         "${field.get('widget')}" is registered?
       `);
     }
 
-    const response = this.wrappedControlValid();
+    const response = wrappedControlValid();
     if (typeof response === 'boolean') {
       const isValid = response;
       return { error: !isValid };
@@ -196,7 +164,7 @@ export default class Widget extends Component {
     } else if (response instanceof Promise) {
       response.then(
         () => {
-          this.validate({ error: false });
+          validate({ error: false });
         },
         err => {
           const error = {
@@ -204,7 +172,7 @@ export default class Widget extends Component {
             message: `${field.get('label', field.get('name'))} - ${err}.`,
           };
 
-          this.validate({ error });
+          validate({ error });
         },
       );
 
@@ -224,125 +192,278 @@ export default class Widget extends Component {
   /**
    * In case the `onChangeObject` function is frozen by a child widget implementation,
    * e.g. when debounced, always get the latest object value instead of using
-   * `this.props.value` directly.
+   * `props.value` directly.
    */
-  getObjectValue = () => this.props.value || Map();
+  const getObjectValue = () => props.value || Map();
 
   /**
    * Change handler for fields that are nested within another field.
    */
-  onChangeObject = (field, newValue, newMetadata) => {
-    const newObjectValue = this.getObjectValue().set(field.get('name'), newValue);
-    return this.props.onChange(
+  const onChangeObject = (field, newValue, newMetadata) => {
+    const newObjectValue = getObjectValue().set(field.get('name'), newValue);
+    return props.onChange(
       newObjectValue,
-      newMetadata && { [this.props.field.get('name')]: newMetadata },
+      newMetadata && { [props.field.get('name')]: newMetadata },
     );
   };
 
-  setInactiveStyle = () => {
-    this.props.setInactiveStyle();
-    if (this.props.field.has('pattern') && !isEmpty(this.getValidateValue())) {
-      this.validate();
+  const setInactiveStyle = () => {
+    props.setInactiveStyle();
+    if (props.field.has('pattern') && !isEmpty(getValidateValue())) {
+      validate();
     }
   };
+  const {
+    controlComponent,
+    entry,
+    collection,
+    config,
+    field,
+    value,
+    mediaPaths,
+    metadata,
+    onChange,
+    onValidateObject,
+    onOpenMediaLibrary,
+    onRemoveMediaControl,
+    onPersistMedia,
+    onClearMediaControl,
+    onAddAsset,
+    onRemoveInsertedMedia,
+    getAsset,
+    classNameWrapper,
+    classNameWidget,
+    classNameWidgetActive,
+    classNameLabel,
+    classNameLabelActive,
+    setActiveStyle,
+    hasActiveStyle,
+    editorControl,
+    uniqueFieldId,
+    resolveWidget,
+    widget,
+    getEditorComponents,
+    query,
+    queryHits,
+    clearSearch,
+    clearFieldErrors,
+    isFetching,
+    loadEntry,
+    fieldsErrors,
+    controlRef,
+    isEditorComponent,
+    isNewEditorComponent,
+    parentIds,
+    t,
+    isDisabled,
+    isFieldDuplicate,
+    isFieldHidden,
+    obj
+  } = props;
 
-  render() {
-    const {
-      controlComponent,
-      entry,
-      collection,
-      config,
-      field,
-      value,
-      mediaPaths,
-      metadata,
-      onChange,
-      onValidateObject,
-      onOpenMediaLibrary,
-      onRemoveMediaControl,
-      onPersistMedia,
-      onClearMediaControl,
-      onAddAsset,
-      onRemoveInsertedMedia,
-      getAsset,
-      classNameWrapper,
-      classNameWidget,
-      classNameWidgetActive,
-      classNameLabel,
-      classNameLabelActive,
-      setActiveStyle,
-      hasActiveStyle,
-      editorControl,
-      uniqueFieldId,
-      resolveWidget,
-      widget,
-      getEditorComponents,
-      query,
-      queryHits,
-      clearSearch,
-      clearFieldErrors,
-      isFetching,
-      loadEntry,
-      fieldsErrors,
-      controlRef,
-      isEditorComponent,
-      isNewEditorComponent,
-      parentIds,
-      t,
-      isDisabled,
-      isFieldDuplicate,
-      isFieldHidden,
-    } = this.props;
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+    ],
+    content: `
+    `,
+    onUpdate({ editor }) {
+      onChange()
+    },
 
-    return React.createElement(controlComponent, {
-      entry,
-      collection,
-      config,
-      field,
-      value,
-      mediaPaths,
-      metadata,
-      onChange,
-      onChangeObject: this.onChangeObject,
-      onValidateObject,
-      onOpenMediaLibrary,
-      onClearMediaControl,
-      onRemoveMediaControl,
-      onPersistMedia,
-      onAddAsset,
-      onRemoveInsertedMedia,
-      getAsset,
-      forID: uniqueFieldId,
-      ref: this.processInnerControlRef,
-      validate: this.validate,
-      classNameWrapper,
-      classNameWidget,
-      classNameWidgetActive,
-      classNameLabel,
-      classNameLabelActive,
-      setActiveStyle,
-      setInactiveStyle: () => this.setInactiveStyle(),
-      hasActiveStyle,
-      editorControl,
-      resolveWidget,
-      widget,
-      getEditorComponents,
-      getRemarkPlugins,
-      query,
-      queryHits,
-      clearSearch,
-      clearFieldErrors,
-      isFetching,
-      loadEntry,
-      isEditorComponent,
-      isNewEditorComponent,
-      fieldsErrors,
-      controlRef,
-      parentIds,
-      t,
-      isDisabled,
-      isFieldDuplicate,
-      isFieldHidden,
-    });
-  }
+  })
+  return (
+    <>{editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+      <button
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        className={editor.isActive('bold') ? 'is-active' : ''}
+      >
+        Bold
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        className={editor.isActive('italic') ? 'is-active' : ''}
+      >
+        Italic
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+        className={editor.isActive('strike') ? 'is-active' : ''}
+      >
+        Strike
+      </button>
+    </BubbleMenu>}
+
+      {editor && <FloatingMenu className="floating-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+        <button
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+        >
+          H1
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+        >
+          H2
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={editor.isActive('bulletList') ? 'is-active' : ''}
+        >
+          Bullet List
+        </button>
+      </FloatingMenu>}
+      {obj ? <>
+
+        {editor && <BubbleMenu className="bubble-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+          <button
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={editor.isActive('bold') ? 'is-active' : ''}
+          >
+            Bold
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={editor.isActive('italic') ? 'is-active' : ''}
+          >
+            Italic
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={editor.isActive('strike') ? 'is-active' : ''}
+          >
+            Strike
+          </button>
+        </BubbleMenu>}
+
+        {editor && <FloatingMenu className="floating-menu" tippyOptions={{ duration: 100 }} editor={editor}>
+          <button
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+            className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+          >
+            H1
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+            className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+          >
+            H2
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={editor.isActive('bulletList') ? 'is-active' : ''}
+          >
+            Bullet List
+          </button>
+        </FloatingMenu>}
+
+        <EditorContent
+          editor={editor}
+          entry
+          collection
+          config
+          field
+          value
+          mediaPaths
+          metadata
+          onChange
+          onChangeObject={onChangeObject}
+          onValidateObject
+          onOpenMediaLibrary
+          onClearMediaControl
+          onRemoveMediaControl
+          onPersistMedia
+          onAddAsset
+          onRemoveInsertedMedia
+          getAsset
+          forID={uniqueFieldId}
+          ref={processInnerControlRef}
+          validate={validate}
+          classNameWrapper
+          classNameWidget
+          classNameWidgetActive
+          classNameLabel
+          classNameLabelActive
+          setActiveStyle
+          setInactiveStyle={() => setInactiveStyle()}
+          hasActiveStyle
+          editorControl
+          resolveWidget
+          widget
+          getEditorComponents
+          getRemarkPlugins
+          query
+          queryHits
+          clearSearch
+          clearFieldErrors
+          isFetching
+          loadEntry
+          isEditorComponent
+          isNewEditorComponent
+          fieldsErrors
+          controlRef
+          parentIds
+          t
+          isDisabled
+          isFieldDuplicate
+          isFieldHidden />
+      </> :
+        <>
+          {React.createElement(controlComponent, {
+            entry,
+            collection,
+            config,
+            field,
+            value,
+            mediaPaths,
+            metadata,
+            onChange,
+            onChangeObject: onChangeObject,
+            onValidateObject,
+            onOpenMediaLibrary,
+            onClearMediaControl,
+            onRemoveMediaControl,
+            onPersistMedia,
+            onAddAsset,
+            onRemoveInsertedMedia,
+            getAsset,
+            forID: uniqueFieldId,
+            ref: processInnerControlRef,
+            validate: validate,
+            classNameWrapper,
+            classNameWidget,
+            classNameWidgetActive,
+            classNameLabel,
+            classNameLabelActive,
+            setActiveStyle,
+            setInactiveStyle: () => setInactiveStyle(),
+            hasActiveStyle,
+            editorControl,
+            resolveWidget,
+            widget,
+            getEditorComponents,
+            getRemarkPlugins,
+            query,
+            queryHits,
+            clearSearch,
+            clearFieldErrors,
+            isFetching,
+            loadEntry,
+            isEditorComponent,
+            isNewEditorComponent,
+            fieldsErrors,
+            controlRef,
+            parentIds,
+            t,
+            isDisabled,
+            isFieldDuplicate,
+            isFieldHidden,
+            // editor: editor
+          })
+          }
+        </>
+      }
+    </>
+  )
 }
