@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.54.8](https://github.com/netlify/netlify-cms/compare/netlify-cms-core@2.54.7...netlify-cms-core@2.54.8) (2022-03-14)
+
+
+### Bug Fixes
+
+* replace instanceof check ([#6284](https://github.com/netlify/netlify-cms/issues/6284)) ([a0d3917](https://github.com/netlify/netlify-cms/commit/a0d391724973161b68891a7ebcf4fdac4fe2384c))
+
+
+
+
+
+## [2.54.7](https://github.com/netlify/netlify-cms/compare/netlify-cms-core@2.54.6...netlify-cms-core@2.54.7) (2022-03-08)
+
+**Note:** Version bump only for package netlify-cms-core
+
+
+
+
+
+## [2.54.6](https://github.com/netlify/netlify-cms/compare/netlify-cms-core@2.54.5...netlify-cms-core@2.54.6) (2022-02-28)
+
+
+### Bug Fixes
+
+* **i18n:** fix that unable to delete page with SINGLE_FILE i18n structure ([#6218](https://github.com/netlify/netlify-cms/issues/6218)) ([a14580a](https://github.com/netlify/netlify-cms/commit/a14580a7549c7576fd1c6f5bc4fde0373215ec99))
+
+
+
+
+
+## [2.54.5](https://github.com/netlify/netlify-cms/compare/netlify-cms-core@2.54.4...netlify-cms-core@2.54.5) (2022-01-21)
+
+
+### Bug Fixes
+
+* remove redundant log from EditorControlPane ([#6141](https://github.com/netlify/netlify-cms/issues/6141)) ([6c924db](https://github.com/netlify/netlify-cms/commit/6c924db10b9f1baab15cdcebdc1e2c01bca4ec83))
+
+
+
+
+
+## [2.54.4](https://github.com/netlify/netlify-cms/compare/netlify-cms-core@2.54.3...netlify-cms-core@2.54.4) (2022-01-21)
+
+**Note:** Version bump only for package netlify-cms-core
+
+
+
+
+
+## [2.54.3](https://github.com/netlify/netlify-cms/compare/netlify-cms-core@2.54.2...netlify-cms-core@2.54.3) (2021-12-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency react-frame-component to v5.2.1 ([#6048](https://github.com/netlify/netlify-cms/issues/6048)) ([f558ce0](https://github.com/netlify/netlify-cms/commit/f558ce06e3692ec4fa59189cdcc7f06e8d6c58bf))
+
+
+
+
+
 ## [2.54.2](https://github.com/netlify/netlify-cms/compare/netlify-cms-core@2.54.1...netlify-cms-core@2.54.2) (2021-12-08)
 
 
