@@ -21,8 +21,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 // Log version
 if (typeof window !== 'undefined') {
-  if (typeof "2.15.61" === 'string') {
-    console.log(`netlify-cms-app ${"2.15.61"}`);
+  if (typeof "2.15.69" === 'string') {
+    console.log(`netlify-cms-app ${"2.15.69"}`);
   }
 }
 
