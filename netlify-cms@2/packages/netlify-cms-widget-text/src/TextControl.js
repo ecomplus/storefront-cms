@@ -5,6 +5,7 @@ import Textarea from 'react-textarea-autosize';
 export default class TextControl extends React.Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     forID: PropTypes.string,
     value: PropTypes.node,
     classNameWrapper: PropTypes.string.isRequired,
@@ -28,7 +29,7 @@ export default class TextControl extends React.Component {
   }
 
   render() {
-    const { forID, value, onChange, classNameWrapper, setActiveStyle, setInactiveStyle } =
+    const { forID, value, onChange, classNameWrapper, setActiveStyle, setInactiveStyle, onFocus } =
       this.props;
 
     return (
@@ -36,7 +37,7 @@ export default class TextControl extends React.Component {
         id={forID}
         value={value || ''}
         className={classNameWrapper}
-        onFocus={setActiveStyle}
+        onFocus={e => { onFocus(e.target.value); this.props.setActiveStyle() }}
         onBlur={setInactiveStyle}
         minRows={5}
         css={{ fontFamily: 'inherit' }}

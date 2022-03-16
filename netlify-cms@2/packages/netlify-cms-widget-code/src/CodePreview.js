@@ -16,7 +16,12 @@ function toValue(value, field) {
 
 function CodePreview(props) {
   return (
-    <WidgetPreviewContainer>
+    <WidgetPreviewContainer
+      style={{
+        borderStyle:
+          props?.field.get('name') === window?.storefrontCmsFocusField?.name && props?.field.get('label') === window?.storefrontCmsFocusField?.label
+            ? 'dotted' : 'none'
+      }}>
       <pre>
         <code>{toValue(props.value, props.field)}</code>
       </pre>

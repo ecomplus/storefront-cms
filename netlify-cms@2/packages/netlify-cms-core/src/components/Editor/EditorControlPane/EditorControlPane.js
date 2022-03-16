@@ -166,7 +166,7 @@ export default class ControlPane extends React.Component {
   };
 
   render() {
-    const { collection, entry, fields, fieldsMetaData, fieldsErrors, onChange, onValidate, t } =
+    const { collection, entry, fields, fieldsMetaData, fieldsErrors, onChange, onFocus, onValidate, t } =
       this.props;
 
     if (!collection || !fields) {
@@ -226,6 +226,10 @@ export default class ControlPane extends React.Component {
                 onChange={(field, newValue, newMetadata) => {
                   onChange(field, newValue, newMetadata, i18n);
                 }}
+                onFocus={(field, newValue, newMetadata) => {
+                  console.log('newMeta', newMetadata);
+                  onFocus(field, newValue, newMetadata, i18n);
+                }}
                 onValidate={onValidate}
                 processControlRef={this.controlRef.bind(this)}
                 controlRef={this.controlRef}
@@ -250,5 +254,6 @@ ControlPane.propTypes = {
   fieldsMetaData: ImmutablePropTypes.map.isRequired,
   fieldsErrors: ImmutablePropTypes.map.isRequired,
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onValidate: PropTypes.func.isRequired,
 };

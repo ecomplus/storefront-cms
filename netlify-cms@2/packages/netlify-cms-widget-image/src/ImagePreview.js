@@ -11,7 +11,7 @@ const StyledImage = styled(({ src }) => <img src={src || ''} role="presentation"
 `;
 
 function StyledImageAsset({ getAsset, value, field }) {
-  return <StyledImage src={getAsset(value, field)} />;
+  return <StyledImage style={{ borderStyle: field?.get('name') === window?.storefrontCmsFocusField?.name && field?.get('label') === window?.storefrontCmsFocusField?.label ? 'dotted' : 'none' }} src={getAsset(value, field)} />;
 }
 
 function ImagePreviewContent(props) {
@@ -26,7 +26,7 @@ function ImagePreviewContent(props) {
 
 function ImagePreview(props) {
   return (
-    <WidgetPreviewContainer>
+    <WidgetPreviewContainer style={{ borderStyle: props?.field?.get('name') === window?.storefrontCmsFocusField?.name && props?.field?.get('label') === window?.storefrontCmsFocusField?.label ? 'dotted' : 'none' }}>
       {props.value ? <ImagePreviewContent {...props} /> : null}
     </WidgetPreviewContainer>
   );

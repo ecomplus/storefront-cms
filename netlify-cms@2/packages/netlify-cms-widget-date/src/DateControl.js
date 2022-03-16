@@ -22,6 +22,7 @@ export default class DateControl extends React.Component {
     field: PropTypes.object.isRequired,
     forID: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     classNameWrapper: PropTypes.string.isRequired,
     setActiveStyle: PropTypes.func.isRequired,
     setInactiveStyle: PropTypes.func.isRequired,
@@ -101,6 +102,21 @@ export default class DateControl extends React.Component {
       onChange(value);
     }
   };
+  handleFocus = datetime => {
+    if (!this.isValidDate(datetime)) {
+      return;
+    }
+    const { onFocus } = this.props;
+    const { format } = this.formats;
+
+    if (format) {
+      const formattedValue = datetime ? moment(datetime).format(format) : '';
+      onFocus(formattedValue);
+    } else {
+      const value = moment.isMoment(datetime) ? datetime.toDate() : datetime;
+      onFocus(value);
+    }
+  };
 
   onClose = datetime => {
     const { setInactiveStyle } = this.props;
@@ -132,6 +148,7 @@ export default class DateControl extends React.Component {
           timeFormat={timeFormat}
           value={moment(value, format)}
           onChange={this.handleChange}
+          onFocus={this.handleFocus}
           onOpen={setActiveStyle}
           onClose={this.onClose}
           inputProps={{ className: classNameWrapper, id: forID }}

@@ -119,6 +119,7 @@ class EditorControl extends React.Component {
     mediaPaths: ImmutablePropTypes.map.isRequired,
     boundGetAsset: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func,
     openMediaLibrary: PropTypes.func.isRequired,
     addAsset: PropTypes.func.isRequired,
     removeInsertedMedia: PropTypes.func.isRequired,
@@ -177,6 +178,7 @@ class EditorControl extends React.Component {
       mediaPaths,
       boundGetAsset,
       onChange,
+      onFocus,
       openMediaLibrary,
       clearMediaControl,
       removeMediaControl,
@@ -290,6 +292,7 @@ class EditorControl extends React.Component {
               mediaPaths={mediaPaths}
               metadata={metadata}
               onChange={(newValue, newMetadata) => onChange(field, newValue, newMetadata)}
+              onFocus={(newValue, newMetadata) => onFocus(field, newValue, newMetadata)}
               onValidate={onValidate && partial(onValidate, this.uniqueFieldId)}
               onOpenMediaLibrary={openMediaLibrary}
               onClearMediaControl={clearMediaControl}

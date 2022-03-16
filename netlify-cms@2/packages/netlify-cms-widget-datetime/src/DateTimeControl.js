@@ -122,6 +122,21 @@ export default class DateTimeControl extends React.Component {
       onChange(value);
     }
   };
+  handleFocus = datetime => {
+    if (!this.isValidDate(datetime)) {
+      return;
+    }
+
+    const { onFocus } = this.props;
+    const { format } = this.formats;
+    if (format) {
+      const formattedValue = datetime ? moment(datetime).format(format) : '';
+      onFocus(formattedValue);
+    } else {
+      const value = moment.isMoment(datetime) ? datetime.toDate() : datetime;
+      onFocus(value);
+    }
+  };
 
   onClose = datetime => {
     const { setInactiveStyle } = this.props;
@@ -155,6 +170,7 @@ export default class DateTimeControl extends React.Component {
           timeFormat={timeFormat}
           value={moment(value, format)}
           onChange={this.handleChange}
+          onFocus={this.handleFocus}
           onOpen={setActiveStyle}
           onClose={this.onClose}
           inputProps={{ className: classNameWrapper, id: forID }}

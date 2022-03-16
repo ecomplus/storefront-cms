@@ -40,8 +40,14 @@ export default class StringControl extends React.Component {
     this.props.onChange(e.target.value);
   };
 
+  handleFocus = e => {
+    this.props.setActiveStyle()
+    this._sel = e.target.selectionStart;
+    this.props.onFocus(e.target.value);
+  }
+
   render() {
-    const { forID, value, classNameWrapper, setActiveStyle, setInactiveStyle } = this.props;
+    const { forID, value, classNameWrapper, setActiveStyle, setInactiveStyle, onFocus } = this.props;
 
     return (
       <input
@@ -53,7 +59,7 @@ export default class StringControl extends React.Component {
         className={classNameWrapper}
         value={value || ''}
         onChange={this.handleChange}
-        onFocus={setActiveStyle}
+        onFocus={this.handleFocus}
         onBlur={setInactiveStyle}
       />
     );

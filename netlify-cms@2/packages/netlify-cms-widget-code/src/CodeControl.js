@@ -64,6 +64,7 @@ export default class CodeControl extends React.Component {
   static propTypes = {
     field: ImmutablePropTypes.map.isRequired,
     onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
     value: PropTypes.node,
     forID: PropTypes.string.isRequired,
     classNameWrapper: PropTypes.string.isRequired,
