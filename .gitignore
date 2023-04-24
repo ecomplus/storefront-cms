@@ -3,6 +3,7 @@ dist/
 bin/
 public/
 node_modules/
+.yarn/
 npm-debug.log
 .DS_Store
 .tern-project
