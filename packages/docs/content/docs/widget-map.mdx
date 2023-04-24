@@ -1,0 +1,39 @@
+---
+group: Widgets
+title: Map
+weight: 18
+---
+
+- **Name:** `map`
+- **UI:** Interactive map
+- **Data type:** `GeoJSON string``
+
+The map widget allows you to edit spatial data using an interactive map. Spatial data for a single piece of geometry saves as a GeoJSON string in WGS84 projection.
+
+## Widget Options
+
+For common options, see [Common widget options](/docs/widgets#common-widget-options).
+
+| Name     | Type                                           | Default   | Description                                                                                        |
+| -------- | ---------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------- |
+| default  | string                                         | `''`      | _Optional_. The default value for the field. Accepts a GeoJSON string containing a single geometry |
+| decimals | number                                         | `7`       | _Optional_. Precision of saved coordinates                                                         |
+| type     | 'Point'<br />\| 'LineString'<br />\| 'Polygon' | `'Point'` | _Optional_. Data type                                                                              |
+| height   | string                                         | `'400px'` | _Optional_. Height of map element                                                                  |
+
+## Example
+
+<CodeTabs>
+```yaml
+name: location
+label: Location
+widget: map
+```
+
+```js
+name: 'location',
+label: 'Location',
+widget: 'map',
+```
+
+</CodeTabs>

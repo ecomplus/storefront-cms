@@ -1,0 +1,38 @@
+{
+  "menu": {
+    "docs": [
+      {
+        "name": "Intro",
+        "title": "Getting Started"
+      },
+      {
+        "name": "Migration",
+        "title": "Migration Guides"
+      },
+      {
+        "name": "Backends",
+        "title": "Backends"
+      },
+      {
+        "name": "Collections",
+        "title": "Collections"
+      },
+      {
+        "name": "Widgets",
+        "title": "Widgets"
+      },
+      {
+        "name": "Media",
+        "title": "Media"
+      },
+      {
+        "name": "Customization",
+        "title": "Customizing Static CMS"
+      },
+      {
+        "name": "Contributing",
+        "title": "Community"
+      }
+    ]
+  }
+}

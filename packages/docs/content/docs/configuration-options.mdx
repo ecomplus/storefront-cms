@@ -1,0 +1,296 @@
+---
+group: Intro
+title: Configuration Options
+weight: 10
+---
+
+All configuration options for Static CMS are specified in a `config.yml` file, in the folder where you access the editor UI (usually in the `/admin` folder).
+
+Alternatively, you can specify a custom config file using a link tag:
+
+```html
+<!-- Note the "type" and "rel" attribute values, which are required. -->
+<link href="path/to/config.yml" type="text/yaml" rel="cms-config-url" />
+```
+
+If you prefer, you can use a javascript file (`admin/config.js`) instead of a yaml file. Simply import the javascript config and pass it into your `CMS.init({ config })` call.
+
+To see working configuration examples, you can [start from a template](/docs/start-with-a-template) or check out the [CMS demo site](https://demo-staticcms.org/). (No login required: click the login button and Static CMS will open.) You can refer to the demo [configuration code](https://github.com/StaticJsCMS/static-cms/blob/main/core/dev-test/config.yml) to see how each option was configured.
+
+You can find details about all configuration options below. Note that [YAML syntax](https://en.wikipedia.org/wiki/YAML#Basic_components) allows lists and objects to be written in block or inline style, and the code samples below include a mix of both.
+
+## Backend
+
+_This setting is required._
+
+The `backend` option specifies how to access the content for your site, including authentication. Full details and code samples can be found in [Backends](/docs/backends-overview).
+
+**Note**: no matter where you access Static CMS — whether running locally, in a staging environment, or in your published site — it will always fetch and commit files in your hosted repository (for example, on GitHub), on the branch you configured in your Static CMS config file. This means that content fetched in the admin UI will match the content in the repository, which may be different from your locally running site. It also means that content saved using the admin UI will save directly to the hosted repository, even if you're running the UI locally or in staging. If you want to have your local CMS write to a local repository, [try the local_backend setting](/docs/local-backend).
+
+### Commit Message Templates
+
+You can customize the templates used by Static CMS to generate commit messages by setting the `commit_messages` option.
+
+Template tags wrapped in curly braces will be expanded to include information about the file changed by the commit. For example, `{{path}}` will include the full path to the file changed.
+
+#### Example
+
+<CodeTabs>
+```yaml
+backend:
+  commit_messages:
+    create: Create {{collection}} "{{slug}}"
+    update: Update {{collection}} "{{slug}}"
+    delete: Delete {{collection}} "{{slug}}"
+    uploadMedia: Upload "{{path}}"
+    deleteMedia: Delete "{{path}}"
+```
+
+```js
+backend: {
+  commit_messages: {
+    create: 'Create {{collection}} "{{slug}}"',
+    update: 'Update {{collection}} "{{slug}}"',
+    delete: 'Delete {{collection}} "{{slug}}"',
+    uploadMedia: 'Upload "{{path}}"',
+    deleteMedia: 'Delete "{{path}}"',
+  },
+},
+```
+
+</CodeTabs>
+
+#### Commit Types
+
+Static CMS generates the following commit types:
+
+| Commit type   | When is it triggered?        | Available template tags                                     |
+| ------------- | ---------------------------- | ----------------------------------------------------------- |
+| `create`      | A new entry is created       | `slug`, `path`, `collection`, `author-login`, `author-name` |
+| `update`      | An existing entry is changed | `slug`, `path`, `collection`, `author-login`, `author-name` |
+| `delete`      | An existing entry is deleted | `slug`, `path`, `collection`, `author-login`, `author-name` |
+| `uploadMedia` | A media file is uploaded     | `path`, `author-login`, `author-name`                       |
+| `deleteMedia` | A media file is deleted      | `path`, `author-login`, `author-name`                       |
+
+#### Template Tags
+
+Template tags produce the following output:
+
+- `{{slug}}`: url-safe filename of the changed entry
+- `{{collection}}`: name of the collection containing the changed entry
+- `{{path}}`: full path to the changed file
+- `{{author-login}}`: login/username of the author
+- `{{author-name}}`: full name of the author (might be empty based on the user's profile)
+
+## Media and Public Folders
+
+Static CMS users can upload files to your repository using the Media Gallery. The following settings specify where these files are saved, and where they can be accessed on your built site.
+
+### Media Folder
+
+_This setting is required._
+
+The `media_folder` option specifies the folder path where uploaded files should be saved, relative to the base of the repo.
+
+<CodeTabs>
+```yaml
+media_folder: "static/images/uploads"
+```
+
+```js
+media_folder: 'static/images/uploads',
+```
+
+</CodeTabs>
+
+### Public Folder
+
+The `public_folder` option specifies the folder path where the files uploaded by the media library will be accessed, relative to the base of the built site. For fields controlled by \[file] or \[image] widgets, the value of the field is generated by prepending this path to the filename of the selected file. Defaults to the value of `media_folder`, with an opening `/` if one is not already included.
+
+<CodeTabs>
+```yaml
+public_folder: "/images/uploads"
+```
+
+```js
+public_folder: '/images/uploads',
+```
+
+</CodeTabs>
+
+Based on the settings above, if a user used an image widget field called `avatar` to upload and select an image called `philosoraptor.png`, the image would be saved to the repository at `/static/images/uploads/philosoraptor.png`, and the `avatar` field for the file would be set to `/images/uploads/philosoraptor.png`.
+
+This setting can be set to an absolute URL e.g. `https://netlify.com/media` should you wish, however in general this is not advisable as content should have relative paths to other content.
+
+## Media Library <BetaImage />
+
+The `media_library` settings allows customization of the media library.
+
+### Options
+
+| Name           | Type    | Default  | Description                                                                            |
+| -------------- | ------- | -------- | -------------------------------------------------------------------------------------- |
+| max_file_size  | number  | `512000` | _Optional_. <BetaImage /> The max size, in bytes, of files that can be uploaded to the media library |
+| folder_support | boolean | `false`  | _Optional_. <BetaImage /> Enables directory navigation and folder creation in your media library     |
+
+### Example
+
+<CodeTabs>
+```yaml
+media_library:
+  max_file_size: 512000
+  folder_support: true
+```
+
+```js
+{
+  media_library: {
+    max_file_size: 512000,
+    folder_support: true
+  }
+}
+```
+
+</CodeTabs>
+
+## Site URL
+
+The `site_url` setting should provide a URL to your published site. May be used by Static CMS for various functionality. Used together with a collection's `preview_path` to create links to live content.
+
+**Example:**
+
+<CodeTabs>
+```yaml
+site_url: https://your-site.com
+```
+
+```js
+site_url: 'https://your-site.com',
+```
+
+</CodeTabs>
+
+## Display URL
+
+When the `display_url` setting is specified, the Static CMS UI will include a link in the fixed area at the top of the page, allowing content authors to easily return to your main site. The text of the link consists of the URL with the protocol portion (e.g., `https://your-site.com`).
+
+Defaults to `site_url`.
+
+**Example:**
+
+<CodeTabs>
+```yaml
+display_url: https://your-site.com
+```
+
+```js
+display_url: 'https://your-site.com',
+```
+
+</CodeTabs>
+
+## Custom Logo
+
+When the `logo_url` setting is specified, the Static CMS UI will change the logo displayed at the top of the login page, allowing you to brand Static CMS with your own logo. `logo_url` is assumed to be a URL to an image file.
+
+**Example:**
+
+<CodeTabs>
+```yaml
+logo_url: https://your-site.com/images/logo.svg
+```
+
+```js
+logo_url: 'https://your-site.com/images/logo.svg',
+```
+
+</CodeTabs>
+
+## Locale
+
+Static CMS locale. Defaults to `en`.
+
+**Example**
+
+In your `config`:
+
+<CodeTabs>
+```yaml
+locale: 'de'
+```
+
+```js
+locale: 'de',
+```
+
+</CodeTabs>
+
+When a translation for the selected locale is missing the English one will be used.
+
+> All locales are registered by default (so you only need to update your `config`).
+
+## Search
+
+The search functionally requires loading all collection(s) entries, which can exhaust rate limits on large repositories. It can be disabled by setting the top level `search` property to `false`.
+
+Defaults to `true`
+
+**Example:**
+
+<CodeTabs>
+```yaml
+search: false
+```
+
+```js
+search: false,
+```
+
+</CodeTabs>
+
+## Slug Type
+
+The `slug` option allows you to change how filenames for entries are created and sanitized. It also applies to filenames of media inserted via the default media library.\
+For modifying the actual data in a slug, see the per-collection option below.
+
+`slug` accepts multiple options:
+
+- `encoding`
+
+  - `unicode` (default): Sanitize filenames (slugs) according to [RFC3987](https://tools.ietf.org/html/rfc3987) and the [WHATWG URL spec](https://url.spec.whatwg.org/). This spec allows non-ASCII (or non-Latin) characters to exist in URLs.
+  - `ascii`: Sanitize filenames (slugs) according to [RFC3986](https://tools.ietf.org/html/rfc3986). The only allowed characters are (0-9, a-z, A-Z, `_`, `-`, `~`).
+
+- `clean_accents`: Set to `true` to remove diacritics from slug characters before sanitizing. This is often helpful when using `ascii` encoding.
+- `sanitize_replacement`: The replacement string used to substitute unsafe characters, defaults to `-`.
+
+**Example**
+
+<CodeTabs>
+```yaml
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "_"
+```
+
+```js
+slug: {
+  encoding: 'ascii',
+  clean_accents: true,
+  sanitize_replacement: '_'
+},
+```
+
+</CodeTabs>
+
+## Collections
+
+_This setting is required._
+
+The `collections` setting is the heart of your Static CMS configuration, as it determines how content types and editor fields in the UI generate files and content in your repository. Each collection you configure displays in the left sidebar of the Content page of the editor UI, in the order they are entered into your Static CMS `config` file.
+
+`collections` accepts a list of collection objects. See [Collections](/docs/collection-overview) for details.
+
+## Disable Local Backup
+
+When the `disable_local_backup` setting is set to `true` local backups will no be taken for your entries and you will not be prompted to load local backups.
