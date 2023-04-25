@@ -1,0 +1,29 @@
+{
+  "releases": [
+    {
+      "date": "2023-04-25T14:28:00.000Z",
+      "version": "v2.1.0",
+      "description": "Prefix option for UUID widget."
+    },
+    {
+      "date": "2023-04-21T15:00:00.000Z",
+      "version": "v2.0.0",
+      "description": "New UI and Media Library enchancements."
+    },
+    {
+      "date": "2023-01-25T15:26:00.000Z",
+      "version": "v1.2.0",
+      "description": "Custom collection card templates."
+    },
+    {
+      "date": "2023-01-18T15:44:00.000Z",
+      "version": "v1.1.0",
+      "description": "Gitea backend beta support. Side by side i18n editing."
+    },
+    {
+      "date": "2023-01-17T10:02:00.000Z",
+      "version": "v1.0.0",
+      "description": "The first major release of Static CMS with an all-new UI, revamped documentation and much more."
+    }
+  ]
+}
