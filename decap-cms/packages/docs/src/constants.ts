@@ -1,3 +1,0 @@
-export const SEARCH_RESULTS_TO_SHOW = 10;
-
-export const SUMMARY_MIN_PARAGRAPH_LENGTH = 150;
