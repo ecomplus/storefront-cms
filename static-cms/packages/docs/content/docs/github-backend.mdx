@@ -1,0 +1,42 @@
+---
+title: GitHub
+group: Backends
+weight: 20
+---
+
+- **Name**: `github`
+
+For repositories stored on GitHub, the `github` backend allows CMS users to log in directly with their GitHub account. Note that all users must have push access to your content repository for this to work.
+
+## Authentication
+
+Because Github requires a server for authentication, Netlify facilitates basic GitHub authentication.
+
+To enable basic GitHub authentication:
+
+1. Follow the authentication provider setup steps in the [Netlify docs](https://www.netlify.com/docs/authentication-providers/#using-an-authentication-provider).
+2. Add the following lines to your Static CMS `config` file:
+
+<CodeTabs>
+```yaml
+backend:
+  name: github
+  repo: owner-name/repo-name # Path to your GitHub repository
+  # optional, defaults to main
+  # branch: main
+```
+
+```js
+backend: {
+  name: 'github',
+  repo: 'owner-name/repo-name', // Path to your GitHub repository
+  // optional, defaults to main
+  // branch: 'main'
+},
+```
+
+</CodeTabs>
+
+## Git Large File Storage (LFS)
+
+Please note that the GitHub backend **does not** support [git-lfs](https://git-lfs.github.com/).

@@ -1,0 +1,555 @@
+---
+group: Widgets
+title: List
+weight: 17
+---
+
+- **Name:** `list`
+- **UI:** The list widget contains a repeatable child widget, with controls for adding, deleting, and re-ordering the repeated widgets.
+- **Data type:** List of widget values
+
+The list widget allows you to create a repeatable item in the UI which saves as a list of widget values. You can choose any widget as a child of a list widget—even other lists.
+
+## Widget Options
+
+For common options, see [Common widget options](/docs/widgets#common-widget-options).
+
+| Name           | Type                   | Default                               | Description                                                                                                                                                                              |
+| -------------- | ---------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| default        | string                 | `[ <default from the child fields> ]` | _Optional_. The default values for fields. Also accepts an array of items                                                                                                                |
+| allow_add      | boolean                | `true`                                | _Optional_. `false` - Hides the button to add additional items                                                                                                                           |
+| collapsed      | boolean                | `true`                                | _Optional_. `true` - The list and entries collapse by default.                                                                                                                           |
+| summary        | string                 |                                       | _Optional_. The label displayed on collapsed entries. _Ignored for single field lists._                                                                                                  |
+| label_singular | string                 | `label`                               | _Optional_. The text to show on the add button                                                                                                                                           |
+| fields         | list of widgets        | []                                    | _Optional_. A nested list of multiple widget fields to be included in each repeatable iteration                                                                                          |
+| min            | number                 |                                       | _Optional_. Minimum number of items in the list                                                                                                                                          |
+| max            | number                 |                                       | _Optional_. Maximum number of items in the list                                                                                                                                          |
+| add_to_top     | boolean                | `false`                               | _Optional_. <ul><li>`true` - New entries will be added to the top of the list</li><li>`false` - New entries will be added to the bottom of the list</li></ul>                            |
+| types          | list of object widgets |                                       | _Optional_. A nested list of object widgets representing the available types for items in the list. Takes priority over `fields`.                                                        |
+| type_key       | string                 | `'type'`                              | _Optional_. The name of the individual field that will be added to every item in list representing the name of the object widget that item belongs to. Ignored if `types` is not defined |
+
+## Examples
+
+### Basic
+
+<CodeTabs>
+```yaml
+name: testimonials
+label: Testimonials
+widget: list
+summary: '{{fields.quote}} - {{fields.author.name}}'
+fields:
+  - name: quote
+    label: Quote
+    widget: string
+    default: Everything is awesome!
+  - name: author
+    label: Author
+    widget: object
+    fields:
+      - name: name
+        label: Name
+        widget: string
+        default: Emmet
+      - name: avatar
+        label: Avatar
+        widget: image
+        default: /img/emmet.jpg
+```
+
+```js
+name: 'testimonials',
+label: 'Testimonials',
+widget: 'list',
+summary: '{{fields.quote}} - {{fields.author.name}}',
+fields: [
+  {
+    name: 'quote',
+    label: 'Quote',
+    widget: 'string',
+    default: 'Everything is awesome!'
+  },
+  {
+    name: 'author',
+    label: 'Author',
+    widget: 'object',
+    fields: [
+      {
+        name: 'name',
+        label: 'Name',
+        widget: 'string',
+        default: 'Emmet'
+      },
+      {
+        name: 'avatar',
+        label: 'Avatar',
+        widget: 'image',
+        default: '/img/emmet.jpg'
+      },
+    ],
+  },
+],
+```
+
+</CodeTabs>
+
+### Allow Additions
+
+<CodeTabs>
+```yaml
+name: testimonials
+label: Testimonials
+widget: list
+summary: '{{fields.quote}} - {{fields.author.name}}'
+allow_add: false
+fields:
+  - name: quote
+    label: Quote
+    widget: string
+    default: Everything is awesome!
+  - name: author
+    label: Author
+    widget: object
+    fields:
+      - name: name
+        label: Name
+        widget: string
+        default: Emmet
+      - name: avatar
+        label: Avatar
+        widget: image
+        default: /img/emmet.jpg
+```
+
+```js
+name: 'testimonials',
+label: 'Testimonials',
+widget: 'list',
+summary: '{{fields.quote}} - {{fields.author.name}}',
+allow_add: false,
+fields: [
+  {
+    name: 'quote',
+    label: 'Quote',
+    widget: 'string',
+    default: 'Everything is awesome!'
+  },
+  {
+    name: 'author',
+    label: 'Author',
+    widget: 'object',
+    fields: [
+      {
+        name: 'name',
+        label: 'Name',
+        widget: 'string',
+        default: 'Emmet'
+      },
+      {
+        name: 'avatar',
+        label: 'Avatar',
+        widget: 'image',
+        default: '/img/emmet.jpg'
+      },
+    ],
+  },
+],
+```
+
+</CodeTabs>
+
+### Default Value
+
+<CodeTabs>
+```yaml
+name: galleryImages
+label: Gallery
+widget: list
+fields:
+  - name: src
+    label: Source
+    widget: string
+  - name: alt
+    label: Alt Text
+    widget: string
+default:
+  - src: /img/tennis.jpg
+    alt: Tennis
+  - src: /img/footbar.jpg
+    alt: Football
+```
+
+```js
+name: 'galleryImages',
+label: 'Gallery',
+widget: 'list',
+fields: [
+  {
+    name: 'src',
+    label: 'Source',
+    widget: 'string'
+  },
+  {
+    name: 'alt',
+    label: 'Alt Text',
+    widget: 'string'
+  },
+],
+default: [
+  {
+    src: '/img/tennis.jpg',
+    alt: 'Tennis'
+  },
+  {
+    src: '/img/footbar.jpg',
+    alt: 'Football'
+  },
+],
+```
+
+</CodeTabs>
+
+### Start Collapsed
+
+<CodeTabs>
+```yaml
+name: testimonials
+label: Testimonials
+widget: list
+summary: '{{fields.quote}} - {{fields.author.name}}'
+collapsed: false
+fields:
+  - name: quote
+    label: Quote
+    widget: string
+    default: Everything is awesome!
+  - name: author
+    label: Author
+    widget: object
+    fields:
+      - name: name
+        label: Name
+        widget: string
+        default: Emmet
+      - name: avatar
+        label: Avatar
+        widget: image
+        default: /img/emmet.jpg
+```
+
+```js
+name: 'testimonials',
+label: 'Testimonials',
+widget: 'list',
+summary: '{{fields.quote}} - {{fields.author.name}}',
+collapsed: false,
+fields: [
+  {
+    name: 'quote',
+    label: 'Quote',
+    widget: 'string',
+    default: 'Everything is awesome!'
+  },
+  {
+    name: 'author',
+    label: 'Author',
+    widget: 'object',
+    fields: [
+      {
+        name: 'name',
+        label: 'Name',
+        widget: 'string',
+        default: 'Emmet'
+      },
+      {
+        name: 'avatar',
+        label: 'Avatar',
+        widget: 'image',
+        default: '/img/emmet.jpg'
+      },
+    ],
+  },
+],
+```
+
+</CodeTabs>
+
+### Min and Max
+
+<CodeTabs>
+```yaml
+name: testimonials
+label: Testimonials
+widget: list
+summary: '{{fields.quote}} - {{fields.author.name}}'
+min: 1
+max: 3
+fields:
+  - name: quote
+    label: Quote
+    widget: string
+    default: Everything is awesome!
+  - name: author
+    label: Author
+    widget: object
+    fields:
+      - name: name
+        label: Name
+        widget: string
+        default: Emmet
+      - name: avatar
+        label: Avatar
+        widget: image
+        default: /img/emmet.jpg
+```
+
+```js
+name: 'testimonials',
+label: 'Testimonials',
+widget: 'list',
+summary: '{{fields.quote}} - {{fields.author.name}}',
+min: 1,
+max: 3,
+fields: [
+  {
+    name: 'quote',
+    label: 'Quote',
+    widget: 'string',
+    default: 'Everything is awesome!'
+  },
+  {
+    name: 'author',
+    label: 'Author',
+    widget: 'object',
+    fields: [
+      {
+        name: 'name',
+        label: 'Name',
+        widget: 'string',
+        default: 'Emmet'
+      },
+      {
+        name: 'avatar',
+        label: 'Avatar',
+        widget: 'image',
+        default: '/img/emmet.jpg'
+      },
+    ],
+  },
+],
+```
+
+</CodeTabs>
+
+### Add To Top
+
+<CodeTabs>
+```yaml
+name: testimonials
+label: Testimonials
+widget: list
+summary: '{{fields.quote}} - {{fields.author.name}}'
+add_to_top: true
+fields:
+  - name: quote
+    label: Quote
+    widget: string
+    default: Everything is awesome!
+  - name: author
+    label: Author
+    widget: object
+    fields:
+      - name: name
+        label: Name
+        widget: string
+        default: Emmet
+      - name: avatar
+        label: Avatar
+        widget: image
+        default: /img/emmet.jpg
+```
+
+```js
+name: 'testimonials',
+label: 'Testimonials',
+widget: 'list',
+summary: '{{fields.quote}} - {{fields.author.name}}',
+add_to_top: true,
+fields: [
+  {
+    name: 'quote',
+    label: 'Quote',
+    widget: 'string',
+    default: 'Everything is awesome!'
+  },
+  {
+    name: 'author',
+    label: 'Author',
+    widget: 'object',
+    fields: [
+      {
+        name: 'name',
+        label: 'Name',
+        widget: 'string',
+        default: 'Emmet'
+      },
+      {
+        name: 'avatar',
+        label: 'Avatar',
+        widget: 'image',
+        default: '/img/emmet.jpg'
+      },
+    ],
+  },
+],
+```
+
+</CodeTabs>
+
+### Singleton List (List of Strings)
+
+<CodeTabs>
+```yaml
+name: sections
+label: Home Section
+widget: list
+default:
+  - 'tag-1'
+  - 'tag-2'
+fields:
+  - name: tag
+    label: Tag
+    widget: string
+```
+
+```js
+name: 'sections',
+label: 'Home Section',
+widget: 'list',
+default: [
+  'tag-1',
+  'tag-2'
+]
+fields: [
+  {
+    name: 'tag',
+    label: 'Tag',
+    widget: 'string',
+  },
+]
+```
+
+</CodeTabs>
+
+### Typed List
+
+<CodeTabs>
+```yaml
+name: sections
+label: Home Section
+widget: list
+types:
+  - name: carousel
+    label: Carousel
+    widget: object
+    summary: '{{fields.header}}'
+    fields:
+      - name: header
+        label: Header
+        widget: string
+        default: Image Gallery
+      - name: template
+        label: Template
+        widget: string
+        default: carousel.html
+      - name: images
+        label: Images
+        widget: list
+        fields:
+          - name: image
+            label: Image
+            widget: image
+  - name: spotlight
+    label: Spotlight
+    widget: object
+    fields:
+      - name: header
+        label: Header
+        widget: string
+        default: Spotlight
+      - name: template
+        label: Template
+        widget: string
+        default: spotlight.html
+      - name: text
+        label: Text
+        widget: text
+        default: Hello World
+```
+
+```js
+name: 'sections',
+label: 'Home Section',
+widget: 'list',
+types: [
+  {
+    name: 'carousel',
+    label: 'Carousel',
+    widget: 'object',
+    summary: '{{fields.header}}',
+    fields: [
+      {
+        name: 'header',
+        label: 'Header',
+        widget: 'string',
+        default: 'Image Gallery'
+      },
+      {
+        name: 'template',
+        label: 'Template',
+        widget: 'string',
+        default: 'carousel.html'
+      },
+      {
+        name: 'images',
+        label: 'Images',
+        widget: 'list',
+        fields: [
+          {
+            name: 'image',
+            label: 'Image',
+            widget: 'image'
+          }
+        ],
+      },
+    ],
+  },
+  {
+    name: 'spotlight',
+    label: 'Spotlight',
+    widget: 'object',
+    fields: [
+      {
+        name: 'header',
+        label: 'Header',
+        widget: 'string',
+        default: 'Spotlight'
+      },
+      {
+        name: 'template',
+        label: 'Template',
+        widget: 'string',
+        default: 'spotlight.html'
+      },
+      {
+        name: 'text',
+        label: 'Text',
+        widget: 'text',
+        default: 'Hello World'
+      },
+    ],
+  },
+],
+```
+
+</CodeTabs>
