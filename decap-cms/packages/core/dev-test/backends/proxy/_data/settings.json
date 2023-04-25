@@ -1,0 +1,9 @@
+{
+  "front_limit": 6,
+  "site_title": "Test",
+  "posts": {
+    "front_limit": 4,
+    "author": "Bob",
+    "thumb": "/backends/proxy/assets/upload/kanefreeman_2.jpg"
+  }
+}

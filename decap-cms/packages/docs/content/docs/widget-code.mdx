@@ -1,0 +1,40 @@
+---
+group: Widgets
+title: Code
+weight: 11
+---
+
+- **Name**: `code`
+- **UI**: Codemirror editor
+- **Data type**: `string` or `{ code: 'My code here', lang: 'javascript' }`
+
+The code widget provides a code editor (powered by [Codemirror](https://codemirror.net)) with optional syntax awareness. Can output the raw code value or an object with the selected language and the raw code value.
+
+## Widget Options
+
+For common options, see [Common widget options](/docs/widgets#common-widget-options).
+
+| Name                     | Type    | Default                          | Description                                                                          |
+| ------------------------ | ------- | -------------------------------- | ------------------------------------------------------------------------------------ |
+| default_language         | string  |                                  | _Optional_. Default language to use                                                  |
+| allow_language_selection | boolean | `false`                          | _Optional_. Allows language syntax to be changed                                     |
+| keys                     | boolean | `{ code: 'code', lang: 'lang' }` | _Optional_. Sets key names for code and lang if outputting an object                 |
+| output_code_only         | string  | `true`                           | _Optional_. Set to `true` to output the string value only                            |
+| code_mirror_config       | boolean | `false`                          | _Optional_. Config options for [codemiror](https://codemirror.net/5/doc/manual.html) |
+
+## Example
+
+<CodeTabs>
+```yaml
+name: code
+label: Code
+widget: code
+```
+
+```js
+name: 'code',
+label: 'Code',
+widget: 'code',
+```
+
+</CodeTabs>
