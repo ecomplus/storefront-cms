@@ -20,6 +20,14 @@ yarn test
 yarn build
 ```
 
+### Release
+
+```bash
+# /
+npm i
+npm run release
+```
+
 ## Updating Static CMS version
 
 ```bash

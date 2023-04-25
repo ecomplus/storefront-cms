@@ -8,9 +8,8 @@
   ],
   "scripts": {
     "postinstall": "husky install",
-    "build": "cd netlify-cms* && yarn build && npx ncp packages/netlify-cms-app/dist ../dist && cd ..",
-    "version": "standard-version --prerelease beta",
-    "release": "npm run build && git add dist && git commit -m \"chore(release): dist\" && npm run version"
+    "build": "bash scripts/build.sh",
+    "release": "bash scripts/release.sh"
   },
   "repository": {
     "type": "git",
@@ -23,11 +22,11 @@
   },
   "homepage": "https://github.com/ecomplus/storefront-cms#readme",
   "devDependencies": {
-    "@commitlint/cli": "^16.0.1",
-    "@commitlint/config-conventional": "^16.0.0",
-    "husky": "^7.0.4",
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "husky": "^8.0.3",
     "ncp": "^2.0.0",
-    "standard-version": "^9.3.2"
+    "standard-version": "^9.5.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/",
