@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-beta.2...v2.0.0) (2023-04-25)
+
 ## [2.0.0-beta.2](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2022-03-14)
 
 ## [2.0.0-beta.1](https://github.com/ecomplus/storefront-cms/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2022-02-01)
