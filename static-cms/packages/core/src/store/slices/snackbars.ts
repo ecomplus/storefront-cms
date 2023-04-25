@@ -1,3 +1,5 @@
+import type { Slice } from '@reduxjs/toolkit';
+import type { Draft } from 'immer';
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuid } from 'uuid';
 
@@ -27,7 +29,11 @@ const initialState: SnackbarState = {
   messages: [],
 };
 
-export const SnackbarSlice = createSlice({
+// @ts-ignore
+export const SnackbarSlice: Slice<SnackbarState, {
+  addSnackbar: (state: Draft<SnackbarState>, action: PayloadAction<Omit<SnackbarMessage, 'id'>>) => void;
+  removeSnackbarById: (state: Draft<SnackbarState>, action: PayloadAction<string>) => void;
+}, "snackbar"> = createSlice({
   name: 'snackbar',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
@@ -39,7 +45,7 @@ export const SnackbarSlice = createSlice({
       });
     },
     removeSnackbarById: (state, action: PayloadAction<string>) => {
-      state.messages = state.messages.filter(message => message.id !== action.payload);
+      state.messages = state.messages.filter((message: any) => message.id !== action.payload);
     },
   },
 });
